@@ -1,22 +1,24 @@
+import { siteConfig } from "@/lib/site-config";
+
 export function CafeJsonLd() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "CafeOrCoffeeShop",
-    name: "Cafe Lily",
+    name: siteConfig.name,
     image: [
       "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=80",
     ],
-    "@id": "https://cafelily.in",
-    url: "https://cafelily.in",
-    telephone: "+919823045678",
+    "@id": siteConfig.url,
+    url: siteConfig.url,
+    telephone: siteConfig.phone,
     priceRange: "₹₹",
-    menu: "https://cafelily.in/menu",
+    menu: `${siteConfig.url}/menu`,
     servesCuisine: [
-      "Specialty Coffee",
-      "Artisanal Viennoiserie",
-      "Sourdough Breakfast & Tartines",
-      "Botanical Teas",
+      "Specialty Chai",
+      "South Indian Filter Kaapi",
+      "Indian Breakfast & Street Snacks",
+      "Artisanal Bakery & Desserts",
     ],
     address: {
       "@type": "PostalAddress",
@@ -35,8 +37,8 @@ export function CafeJsonLd() {
       {
         "@type": "OpeningHoursSpecification",
         dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        opens: "07:30",
-        closes: "22:30",
+        opens: "08:00",
+        closes: "23:00",
       },
       {
         "@type": "OpeningHoursSpecification",
@@ -58,4 +60,3 @@ export function CafeJsonLd() {
     />
   );
 }
-

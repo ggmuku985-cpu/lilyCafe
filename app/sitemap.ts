@@ -1,7 +1,8 @@
 import { MetadataRoute } from "next";
+import { siteConfig } from "@/lib/site-config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://cafelily.in";
+  const baseUrl = siteConfig.url;
   const lastModified = new Date();
 
   return [
@@ -43,4 +44,3 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 }
-

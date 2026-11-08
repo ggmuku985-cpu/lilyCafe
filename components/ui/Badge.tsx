@@ -1,72 +1,121 @@
 import { cn } from "@/lib/utils";
-import type { DietaryBadge } from "@/data/menu";
+
+export type DietaryType = "veg" | "non-veg";
 
 interface BadgeProps {
-  type: DietaryBadge | "ChefsPick" | "Bestseller" | "New";
+  type?: "Bestseller" | "ChefsPick" | "Spicy" | "Popular" | "Seasonal" | "ChaiSpecial";
+  dietary?: DietaryType;
   className?: string;
   size?: "sm" | "md";
 }
 
-export function Badge({ type, className, size = "sm" }: BadgeProps) {
+/**
+ * Standard Indian FSSAI Veg (Green) & Non-Veg (Red/Brown) Dot
+ */
+export function VegIndicator({
+  type,
+  className,
+  showLabel = false,
+}: {
+  type: DietaryType;
+  className?: string;
+  showLabel?: boolean;
+}) {
+  const isVeg = type === "veg";
+
+  return (
+    <div
+      className={cn("inline-flex items-center gap-1.5", className)}
+      title={isVeg ? "100% Vegetarian" : "Contains Egg / Meat"}
+    >
+      <div
+        className={cn(
+          "flex items-center justify-center rounded-sm border p-[2px] transition-transform",
+          isVeg
+            ? "border-emerald-600 bg-white"
+            : "border-red-700 bg-white"
+        )}
+        style={{ width: "15px", height: "15px" }}
+      >
+        <div
+          className={cn(
+            "rounded-full",
+            isVeg ? "bg-emerald-600" : "bg-red-700"
+          )}
+          style={{ width: "7px", height: "7px" }}
+        />
+      </div>
+      {showLabel && (
+        <span
+          className={cn(
+            "text-[11px] font-sans font-medium uppercase tracking-wider",
+            isVeg ? "text-emerald-800" : "text-red-800"
+          )}
+        >
+          {isVeg ? "Veg" : "Non-Veg"}
+        </span>
+      )}
+    </div>
+  );
+}
+
+export function Badge({ type, dietary, className, size = "sm" }: BadgeProps) {
+  if (dietary) {
+    return <VegIndicator type={dietary} className={className} showLabel />;
+  }
+
   const configs: Record<
-    BadgeProps["type"],
-    { label: string; bg: string; text: string; border: string; title: string }
+    NonNullable<BadgeProps["type"]>,
+    { label: string; bg: string; text: string; border: string }
   > = {
-    V: {
-      label: "Vegetarian",
-      bg: "bg-sage-100",
-      text: "text-sage-800",
-      border: "border-sage-400/40",
-      title: "Vegetarian",
-    },
-    VG: {
-      label: "Vegan",
-      bg: "bg-emerald-50",
-      text: "text-emerald-800",
-      border: "border-emerald-300",
-      title: "100% Plant-Based Vegan",
-    },
-    GF: {
-      label: "Gluten-Free",
-      bg: "bg-amber-50",
-      text: "text-amber-800",
-      border: "border-amber-300",
-      title: "Gluten-Free Recipe",
+    Bestseller: {
+      label: "Bestseller",
+      bg: "bg-marigold-100",
+      text: "text-marigold-800",
+      border: "border-marigold-300",
     },
     ChefsPick: {
       label: "Chef's Pick",
       bg: "bg-terracotta-100",
       text: "text-terracotta-700",
       border: "border-terracotta-300",
-      title: "Curated Specialty Recommendation",
     },
-    Bestseller: {
-      label: "Bestseller",
-      bg: "bg-gold-100",
-      text: "text-gold-700",
-      border: "border-gold-300",
-      title: "Guest Favorite & Most Ordered",
+    Spicy: {
+      label: "🌶️ Mild Spice",
+      bg: "bg-red-50",
+      text: "text-red-700",
+      border: "border-red-200",
     },
-    New: {
-      label: "Seasonal",
+    ChaiSpecial: {
+      label: "Kulhad Special",
+      bg: "bg-amber-100",
+      text: "text-amber-900",
+      border: "border-amber-300",
+    },
+    Popular: {
+      label: "Popular",
       bg: "bg-cream-200",
       text: "text-espresso-800",
-      border: "border-cream-400",
-      title: "New Seasonal Special",
+      border: "border-cream-300",
+    },
+    Seasonal: {
+      label: "Seasonal",
+      bg: "bg-sage-100",
+      text: "text-sage-800",
+      border: "border-sage-300",
     },
   };
 
-  const config = configs[type] || configs.V;
+  const config = type ? configs[type] : configs.Bestseller;
 
   return (
     <span
-      title={config.title}
       className={cn(
-        "inline-flex items-center font-sans font-medium rounded-full border transition-colors",
+        "inline-flex items-center font-sans font-semibold rounded-full border shadow-xs tracking-wide",
         config.bg,
         config.text,
         config.border,
-        size === "sm" ? "px-2 py-0.5 text-[11px]" : "px-3 py-1 text-xs",
+        size === "sm" ? "px-2 py-0.5 text-[10px]" : "px-3 py-1 text-xs",
         className
       )}
     >
@@ -74,4 +123,3 @@ export function Badge({ type, className, size = "sm" }: BadgeProps) {
     </span>
   );
 }
-

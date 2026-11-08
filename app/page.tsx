@@ -12,16 +12,17 @@ import { InstagramStripSection } from "@/components/sections/InstagramStripSecti
 import { HomeReservationSection } from "@/components/sections/HomeReservationSection";
 import { LocationHoursSection } from "@/components/sections/LocationHoursSection";
 import { NewsletterSection } from "@/components/sections/NewsletterSection";
+import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Cafe Lily | Specialty Roastery & Botanical Sanctuary | Nashik",
+  title: "Café Lily | Chai, Filter Kaapi & Artisan Bakes | Nashik",
   description:
-    "An artisan specialty coffee roastery and bakery sanctuary in Nashik, Maharashtra. Single-origin estate coffees, slow sourdough viennoiserie, and botanical serenity.",
+    "A cozy neighborhood cafe in Nashik, Maharashtra. Authentic kulhad chai, South Indian filter kaapi, warm bun maska, street snacks, and garden seating.",
   openGraph: {
-    title: "Cafe Lily | Where Every Cup Blooms",
-    description: "Specialty coffee roastery, botanical conservatory, and artisan bakery in Nashik, Maharashtra.",
-    url: "https://cafelily.in",
-    siteName: "Cafe Lily",
+    title: "Café Lily | Where Every Cup Blooms",
+    description: "Authentic Indian chais, South Indian filter kaapi, fresh snacks, and peaceful garden seating in Nashik.",
+    url: siteConfig.url,
+    siteName: "Café Lily",
     locale: "en_IN",
     type: "website",
   },
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-cream-100 flex flex-col">
-      {/* 2. Full-screen Hero */}
+      {/* 2. Full-screen Hero (Sharp, high-res, dark overlay, white text) */}
       <HeroSection />
 
       {/* 3. Marquee strip */}
@@ -39,7 +40,7 @@ export default function HomePage() {
       {/* 4. Story Teaser with collage and counters */}
       <StoryTeaserSection />
 
-      {/* 5. Signature Favorites (6 animated cards) */}
+      {/* 5. Signature Favorites (6 iconic Indian dishes) */}
       <SignatureFavoritesSection />
 
       {/* 6. Why Cafe Lily feature grid */}
@@ -54,13 +55,13 @@ export default function HomePage() {
       {/* 9. Testimonials carousel */}
       <TestimonialsSection />
 
-      {/* 10. Events / Workshops */}
+      {/* 10. Events / Gatherings (Chai & Poetry, Open Mic, Workshops) */}
       <EventsSection />
 
-      {/* 11. Instagram-style photo strip */}
+      {/* 11. Instagram photo strip */}
       <InstagramStripSection />
 
-      {/* 12. Reservation section */}
+      {/* 12. Table Reservation section */}
       <HomeReservationSection />
 
       {/* 13. Location, opening hours & embedded Google Map */}
@@ -71,4 +72,3 @@ export default function HomePage() {
     </main>
   );
 }
-

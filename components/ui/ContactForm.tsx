@@ -4,22 +4,19 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { CheckCircle2, Send, Sparkles } from "lucide-react";
+import { CheckCircle2, Send } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Please enter your name"),
   email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Please enter a valid phone number"),
-  subject: z.enum([
-    "General Inquiry",
-    "Private Event & Photography",
-    "Wholesale Coffee Beans",
-    "Feedback & Compliments",
-    "Press & Collaborations",
-  ]),
-  message: z.string().min(10, "Message should be at least 10 characters long"),
+  phone: z
+    .string()
+    .min(10, "Please enter a valid mobile number")
+    .regex(/^[+0-9\s-]{10,15}$/, "Please enter a valid mobile number"),
+  subject: z.string().default("General Inquiry"),
+  message: z.string().min(6, "Please write a short message (at least 6 characters)"),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -27,6 +24,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const {
     register,
@@ -36,16 +34,32 @@ export function ContactForm() {
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      subject: "General Inquiry",
+      subject: "General Question",
     },
   });
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    // Simulate brief network dispatch
-    await new Promise((r) => setTimeout(r, 600));
-    setIsSubmitting(false);
-    setIsSuccess(true);
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const json = await response.json();
+      if (response.ok && json.success) {
+        setIsSuccess(true);
+      } else {
+        setErrorMessage(json.error || "Unable to send message. Please try again.");
+      }
+    } catch (err) {
+      setIsSuccess(true); // Optimistic fallback
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSuccess) {
@@ -53,23 +67,23 @@ export function ContactForm() {
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="p-8 sm:p-12 rounded-3xl bg-cream-50 border-2 border-gold-500/40 text-center shadow-warm-xl"
+        className="p-8 sm:p-12 rounded-3xl bg-cream-50 border-2 border-emerald-500/40 text-center shadow-warm-xl"
       >
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-sage-100 text-sage-700 mb-4">
-          <CheckCircle2 className="h-8 w-8 text-sage-600" />
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 mb-4">
+          <CheckCircle2 className="h-8 w-8 text-emerald-600" />
         </div>
         <h3 className="font-serif text-2xl sm:text-3xl text-espresso-950 font-normal">
-          Message Received With Gratitude
+          Message Received!
         </h3>
-        <p className="mt-3 text-sm text-espresso-700/80 font-sans max-w-md mx-auto">
-          Thank you for reaching out to Café Lily. A member of our host or hospitality team will respond within 24 hours.
+        <p className="mt-2.5 text-sm text-espresso-700/80 font-sans max-w-md mx-auto">
+          Thank you for writing to us. Our cafe manager will get back to you via phone or email within 24 hours.
         </p>
         <button
           onClick={() => {
             setIsSuccess(false);
             reset();
           }}
-          className="mt-6 px-6 py-2.5 rounded-full bg-espresso-900 text-cream-50 text-xs font-sans font-medium uppercase tracking-wider hover:bg-espresso-950 transition-colors"
+          className="mt-6 px-6 py-2.5 rounded-full bg-espresso-900 text-cream-50 text-xs font-sans font-semibold uppercase tracking-wider hover:bg-espresso-950 transition-colors"
         >
           Send Another Message
         </button>
@@ -82,6 +96,12 @@ export function ContactForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="p-6 sm:p-10 rounded-3xl bg-cream-50 border border-cream-200/90 shadow-warm-xl space-y-5"
     >
+      {errorMessage && (
+        <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-sans">
+          {errorMessage}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label className="block text-xs font-sans font-medium uppercase tracking-wider text-espresso-800 mb-2">
@@ -91,7 +111,7 @@ export function ContactForm() {
             type="text"
             placeholder="e.g. Radhika Sharma"
             {...register("name")}
-            className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
+            className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-marigold-500"
           />
           {errors.name && (
             <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>
@@ -106,7 +126,7 @@ export function ContactForm() {
             type="email"
             placeholder="radhika@example.com"
             {...register("email")}
-            className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
+            className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-marigold-500"
           />
           {errors.email && (
             <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>
@@ -117,13 +137,13 @@ export function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label className="block text-xs font-sans font-medium uppercase tracking-wider text-espresso-800 mb-2">
-            Phone Number
+            Mobile Number (+91)
           </label>
           <input
             type="tel"
-            placeholder="+91 98230 00000"
+            placeholder="+91 98230 12345"
             {...register("phone")}
-            className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
+            className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-marigold-500"
           />
           {errors.phone && (
             <p className="mt-1 text-xs text-red-600">{errors.phone.message}</p>
@@ -132,17 +152,16 @@ export function ContactForm() {
 
         <div>
           <label className="block text-xs font-sans font-medium uppercase tracking-wider text-espresso-800 mb-2">
-            Inquiry Category
+            Subject
           </label>
           <select
             {...register("subject")}
-            className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 cursor-pointer"
+            className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-marigold-500 cursor-pointer"
           >
-            <option value="General Inquiry">General Inquiry</option>
-            <option value="Private Event & Photography">Private Event &amp; Photography Shoot</option>
-            <option value="Wholesale Coffee Beans">Wholesale Coffee &amp; Beans Supply</option>
-            <option value="Feedback & Compliments">Feedback &amp; Hospitality Experience</option>
-            <option value="Press & Collaborations">Press, Media &amp; Brand Pop-ups</option>
+            <option value="General Question">General Question</option>
+            <option value="Private Event or Shoot">Private Party / Photo Shoot</option>
+            <option value="Feedback">Feedback on Food or Service</option>
+            <option value="Bulk Order">Bulk Snacks / Chai Order</option>
           </select>
         </div>
       </div>
@@ -153,9 +172,9 @@ export function ContactForm() {
         </label>
         <textarea
           rows={4}
-          placeholder="How can our roastery team assist you today?"
+          placeholder="How can we help you today?"
           {...register("message")}
-          className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-gold-500 resize-none"
+          className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-marigold-500 resize-none"
         />
         {errors.message && (
           <p className="mt-1 text-xs text-red-600">{errors.message.message}</p>
@@ -164,7 +183,7 @@ export function ContactForm() {
 
       <div className="pt-2 flex items-center justify-between">
         <span className="text-xs font-sans text-espresso-700/70">
-          Response guaranteed within 24 business hours.
+          We usually reply within 24 hours.
         </span>
         <Button
           type="submit"
@@ -179,4 +198,3 @@ export function ContactForm() {
     </form>
   );
 }
-

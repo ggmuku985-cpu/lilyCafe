@@ -2,16 +2,17 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Search, X, SlidersHorizontal, Sparkles } from "lucide-react";
+import { Search, X, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   MENU_CATEGORIES,
   MENU_ITEMS,
   type MenuCategory,
-  type DietaryBadge,
-  type MenuItem,
+  type DietaryType,
 } from "@/data/menu";
 import { MenuCard } from "@/components/ui/MenuCard";
+import { useCart } from "@/lib/cart-context";
+import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
 export function FullMenuSection() {
@@ -22,9 +23,8 @@ export function FullMenuSection() {
     initialCategory
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedBadge, setSelectedBadge] = useState<DietaryBadge | "ChefsPick" | "All">(
-    "All"
-  );
+  const [dietaryFilter, setDietaryFilter] = useState<DietaryType | "all">("all");
+  const { totalCount, totalAmount, setIsCartOpen } = useCart();
 
   useEffect(() => {
     const cat = searchParams.get("category") as MenuCategory | null;
@@ -33,7 +33,6 @@ export function FullMenuSection() {
     }
   }, [searchParams]);
 
-  // Filter items based on Category, Search Query, and Dietary Badge
   const filteredItems = useMemo(() => {
     return MENU_ITEMS.filter((item) => {
       // Category match
@@ -41,19 +40,12 @@ export function FullMenuSection() {
         return false;
       }
 
-      // Dietary Badge match
-      if (selectedBadge === "ChefsPick" && !item.isChefsPick) {
-        return false;
-      }
-      if (
-        selectedBadge !== "All" &&
-        selectedBadge !== "ChefsPick" &&
-        !item.badges.includes(selectedBadge)
-      ) {
+      // Veg / Non-veg match
+      if (dietaryFilter !== "all" && item.dietary !== dietaryFilter) {
         return false;
       }
 
-      // Search query match (name, description, category)
+      // Search match
       if (searchQuery.trim() !== "") {
         const q = searchQuery.toLowerCase();
         const matchesName = item.name.toLowerCase().includes(q);
@@ -66,21 +58,20 @@ export function FullMenuSection() {
 
       return true;
     });
-  }, [selectedCategory, searchQuery, selectedBadge]);
+  }, [selectedCategory, searchQuery, dietaryFilter]);
 
   const resetFilters = () => {
     setSelectedCategory("All");
     setSearchQuery("");
-    setSelectedBadge("All");
+    setDietaryFilter("all");
   };
 
   return (
-    <div className="py-12 md:py-20 bg-cream-100">
+    <div className="py-10 md:py-16 bg-cream-100 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Sticky Filter Header Container */}
-        <div className="sticky top-20 z-30 bg-cream-100/95 backdrop-blur-md pb-6 pt-2 border-b border-espresso-900/10">
-          {/* Top row: Search input & Dietary filters */}
-          <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between mb-4">
+        <div className="sticky top-20 z-30 bg-cream-100/95 backdrop-blur-md pb-5 pt-2 border-b border-espresso-900/10">
+          <div className="flex flex-col md:flex-row gap-3.5 items-stretch md:items-center justify-between mb-3">
             {/* Search Bar */}
             <div className="relative flex-grow max-w-md">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-espresso-600/50" />
@@ -88,8 +79,8 @@ export function FullMenuSection() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search coffee, pastries, sourdough..."
-                className="w-full pl-11 pr-10 py-2.5 rounded-full bg-cream-50 border border-cream-300 text-sm font-sans text-espresso-950 placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-gold-500 shadow-sm"
+                placeholder="Search chai, bun maska, filter kaapi, dosa..."
+                className="w-full pl-11 pr-10 py-2.5 rounded-full bg-cream-50 border border-cream-300 text-sm font-sans text-espresso-950 placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-marigold-500 shadow-xs"
               />
               {searchQuery && (
                 <button
@@ -102,53 +93,70 @@ export function FullMenuSection() {
               )}
             </div>
 
-            {/* Dietary Badge Pills */}
-            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-              <span className="text-xs font-sans text-espresso-700/60 mr-1 hidden sm:inline">
-                Dietary:
-              </span>
-              {[
-                { id: "All", label: "All Items" },
-                { id: "V", label: "Vegetarian (V)" },
-                { id: "VG", label: "100% Vegan (VG)" },
-                { id: "GF", label: "Gluten-Free (GF)" },
-                { id: "ChefsPick", label: "Chef's Picks" },
-              ].map((badge) => {
-                const isActive = selectedBadge === badge.id;
-                return (
-                  <button
-                    key={badge.id}
-                    onClick={() =>
-                      setSelectedBadge(
-                        badge.id as DietaryBadge | "ChefsPick" | "All"
-                      )
-                    }
-                    className={cn(
-                      "px-3 py-1.5 rounded-full text-xs font-sans font-medium whitespace-nowrap transition-all border",
-                      isActive
-                        ? "bg-espresso-900 text-cream-50 border-espresso-900 shadow-sm"
-                        : "bg-cream-50 text-espresso-800 border-cream-300 hover:border-gold-500"
-                    )}
-                  >
-                    {badge.label}
-                  </button>
-                );
-              })}
+            {/* Veg / Non-Veg Toggle & Cart Quick Link */}
+            <div className="flex items-center gap-2">
+              <div className="flex items-center bg-cream-50 border border-cream-300 rounded-full p-1 shadow-xs">
+                <button
+                  onClick={() => setDietaryFilter("all")}
+                  className={cn(
+                    "px-3 py-1 rounded-full text-xs font-sans font-medium transition-all",
+                    dietaryFilter === "all"
+                      ? "bg-espresso-900 text-cream-50 font-semibold"
+                      : "text-espresso-800 hover:text-espresso-950"
+                  )}
+                >
+                  All
+                </button>
+                <button
+                  onClick={() => setDietaryFilter("veg")}
+                  className={cn(
+                    "px-3 py-1 rounded-full text-xs font-sans font-medium flex items-center gap-1.5 transition-all",
+                    dietaryFilter === "veg"
+                      ? "bg-emerald-700 text-white font-semibold"
+                      : "text-emerald-800 hover:text-emerald-950"
+                  )}
+                >
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 inline-block" />
+                  <span>Pure Veg</span>
+                </button>
+                <button
+                  onClick={() => setDietaryFilter("non-veg")}
+                  className={cn(
+                    "px-3 py-1 rounded-full text-xs font-sans font-medium flex items-center gap-1.5 transition-all",
+                    dietaryFilter === "non-veg"
+                      ? "bg-red-700 text-white font-semibold"
+                      : "text-red-800 hover:text-red-950"
+                  )}
+                >
+                  <span className="h-2 w-2 rounded-full bg-red-500 inline-block" />
+                  <span>Non-Veg</span>
+                </button>
+              </div>
+
+              {totalCount > 0 && (
+                <button
+                  onClick={() => setIsCartOpen(true)}
+                  className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-terracotta-600 hover:bg-terracotta-700 text-white text-xs font-medium shadow-xs"
+                >
+                  <ShoppingBag className="h-3.5 w-3.5" />
+                  <span>{totalCount} ({formatPrice(totalAmount)})</span>
+                </button>
+              )}
             </div>
           </div>
 
-          {/* Bottom row: Sticky Category Tabs */}
+          {/* Category Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pt-2">
             <button
               onClick={() => setSelectedCategory("All")}
               className={cn(
-                "px-5 py-2 rounded-full text-xs sm:text-sm font-sans font-medium whitespace-nowrap transition-all duration-200",
+                "px-4 py-2 rounded-full text-xs sm:text-sm font-sans font-medium whitespace-nowrap transition-all duration-200",
                 selectedCategory === "All"
-                  ? "bg-gold-500 text-cream-50 font-semibold shadow-warm"
-                  : "bg-cream-200/60 text-espresso-800 hover:bg-cream-200 hover:text-espresso-950"
+                  ? "bg-terracotta-600 text-cream-50 font-semibold shadow-xs"
+                  : "bg-cream-200/70 text-espresso-800 hover:bg-cream-200 hover:text-espresso-950"
               )}
             >
-              All Categories ({MENU_ITEMS.length})
+              All Items ({MENU_ITEMS.length})
             </button>
             {MENU_CATEGORIES.map((cat) => {
               const isActive = selectedCategory === cat;
@@ -158,10 +166,10 @@ export function FullMenuSection() {
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
                   className={cn(
-                    "px-5 py-2 rounded-full text-xs sm:text-sm font-sans font-medium whitespace-nowrap transition-all duration-200",
+                    "px-4 py-2 rounded-full text-xs sm:text-sm font-sans font-medium whitespace-nowrap transition-all duration-200",
                     isActive
-                      ? "bg-gold-500 text-cream-50 font-semibold shadow-warm"
-                      : "bg-cream-200/60 text-espresso-800 hover:bg-cream-200 hover:text-espresso-950"
+                      ? "bg-terracotta-600 text-cream-50 font-semibold shadow-xs"
+                      : "bg-cream-200/70 text-espresso-800 hover:bg-cream-200 hover:text-espresso-950"
                   )}
                 >
                   {cat} ({count})
@@ -171,29 +179,29 @@ export function FullMenuSection() {
           </div>
         </div>
 
-        {/* Results Counter & Active Filters Display */}
-        <div className="flex items-center justify-between mt-8 mb-6 text-xs sm:text-sm font-sans text-espresso-700/70">
+        {/* Results Counter & Reset Link */}
+        <div className="flex items-center justify-between mt-6 mb-6 text-xs sm:text-sm font-sans text-espresso-700/80">
           <div>
             Showing <span className="font-semibold text-espresso-950">{filteredItems.length}</span>{" "}
-            curated offerings
+            items
             {selectedCategory !== "All" && ` in ${selectedCategory}`}
-            {selectedBadge !== "All" && ` • Filter: ${selectedBadge}`}
+            {dietaryFilter !== "all" && ` • ${dietaryFilter === "veg" ? "Pure Veg" : "Non-Veg"}`}
             {searchQuery && ` • Matching "${searchQuery}"`}
           </div>
 
           {(selectedCategory !== "All" ||
-            selectedBadge !== "All" ||
+            dietaryFilter !== "all" ||
             searchQuery !== "") && (
             <button
               onClick={resetFilters}
-              className="text-gold-600 hover:text-gold-700 font-semibold underline underline-offset-4"
+              className="text-terracotta-600 hover:text-terracotta-700 font-semibold underline underline-offset-4"
             >
               Reset Filters
             </button>
           )}
         </div>
 
-        {/* Menu Cards Grid with AnimatePresence */}
+        {/* Menu Cards Grid */}
         {filteredItems.length > 0 ? (
           <motion.div
             layout
@@ -212,10 +220,10 @@ export function FullMenuSection() {
               <Search className="h-6 w-6" />
             </div>
             <h3 className="font-serif text-2xl text-espresso-950 font-normal">
-              No matches found
+              No items found
             </h3>
             <p className="mt-2 text-sm text-espresso-700/80 font-sans">
-              We couldn't find any menu items matching your filter criteria. Try resetting or searching for another keyword.
+              We couldn&apos;t find any dishes matching your filters. Try clearing your search or checking other categories.
             </p>
             <button
               onClick={resetFilters}
@@ -229,4 +237,3 @@ export function FullMenuSection() {
     </div>
   );
 }
-

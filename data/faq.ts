@@ -5,28 +5,27 @@ export interface FAQItem {
 
 export const FAQ_ITEMS: FAQItem[] = [
   {
-    question: "Do you take reservations or walk-ins?",
-    answer: "Both! We reserve 40% of our indoor glasshouse and courtyard seating for walk-ins on a first-come, first-served basis. For guaranteed seating, weekend brunch, or groups of 4 or more, we strongly recommend booking through our Reservations page at least 24 hours in advance.",
+    question: "Do I need a reservation to visit?",
+    answer: "No, walk-ins are always welcome! We keep plenty of tables open for walk-in guests. For large groups or busy weekend brunches, booking ahead on our Reservations page is helpful.",
   },
   {
-    question: "Is Cafe Lily pet friendly?",
-    answer: "Yes, warmly so! Our open-air garden courtyard welcomes well-behaved dogs and cats. We provide clean water bowls and complimentary oat-milk 'pup-cups' prepared fresh by our baristas.",
+    question: "Is Café Lily pet-friendly?",
+    answer: "Yes, absolutely! Dogs and cats are warmly welcome in our open-air garden courtyard. We also provide fresh water bowls for your furry companions.",
   },
   {
-    question: "Do you have options for vegan, gluten-free, or dairy-free guests?",
-    answer: "Absolutely. Over 60% of our menu is vegetarian, vegan, or gluten-free. We offer premium Oatly oat milk, organic almond milk, and house-made cashew milk at no extra substitute charge.",
+    question: "Can I order food on WhatsApp?",
+    answer: "Yes! Click the 'Order on WhatsApp' button on any page or from your cart. It creates a ready message with your selected items, and our team will confirm your order right away.",
   },
   {
-    question: "Is Cafe Lily suitable for remote working?",
-    answer: "Yes, during weekdays (Monday to Friday, 8:00 AM – 5:00 PM), we have a designated quiet creators' mezzanine equipped with ergonomic seating, silent high-speed optical fiber Wi-Fi, and individual charging outlets at each table. On weekends, we preserve a social, unplugged vibe.",
+    question: "Is the cafe suitable for remote work or studying?",
+    answer: "Yes. On weekdays, we have fast fiber Wi-Fi, plenty of charging sockets, and quiet corners for laptop work. We just request keeping calls at a polite volume.",
   },
   {
-    question: "Can I host a private event, photo shoot, or workshop at Cafe Lily?",
-    answer: "We love hosting intimate gatherings, book launches, brand pop-ups, and pre-wedding shoots. Please drop us a line via our contact form or email hello@cafelily.in with your date and guest count for our events brochure.",
+    question: "Do you have vegetarian and non-vegetarian options?",
+    answer: "Yes, over 80% of our menu is 100% vegetarian. All items are clearly marked with green veg or red non-veg indicators so you know exactly what is in your food.",
   },
   {
-    question: "Where do you source your coffee beans?",
-    answer: "We roast micro-lots sourced directly from heritage single-origin estates in Chikmagalur, Coorg, and the Biligiriranga Hills. You can also purchase freshly roasted whole bean and grounded packs directly from our retail shelf or online.",
+    question: "What are your opening hours?",
+    answer: "We are open Monday to Sunday from 8:00 AM to 11:00 PM (extended till 11:30 PM on weekends). Breakfast is served from 8:00 AM.",
   },
 ];
-

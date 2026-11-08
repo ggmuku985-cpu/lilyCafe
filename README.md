@@ -1,39 +1,50 @@
-# Café Lily — Specialty Roastery & Botanical Sanctuary
+# Café Lily — Indian Specialty Café & Artisan Roastery
 
-> An award-winning, agency-grade digital experience for **Café Lily**, an artisan specialty coffee roastery, botanical conservatory, and sourdough bakery based on Gangapur Road, Nashik, Maharashtra.
+> An award-winning, agency-grade digital experience for **Café Lily**, an artisan Indian specialty cafe, chai bar, and fresh bakery based on College Road, Nashik, Maharashtra.
 
-Designed and engineered as a high-end agency portfolio showcase, this project balances botanical calm with precision digital craftsmanship—delivering buttery smooth micro-interactions, rich typography, and production-ready architecture.
+Designed and engineered as a high-end agency portfolio showcase, this project brings together authentic Indian cafe culture (masala chai, filter kaapi, bun maska, street-style bites, and artisanal desserts) with precision modern web craftsmanship—delivering buttery smooth micro-interactions, rich typography, and production-ready architecture.
 
 ---
 
 ## ☕ Live Demo & Brand Vision
-- **Aesthetic**: Warm, calm, elegant, modern-artisan boutique coffee roastery meets botanical sanctuary.
+- **Aesthetic**: Warm, calm, elegant, modern-artisan boutique Indian cafe.
 - **Color Palette**:
-  - Warm Cream / Ivory Background (`#FAF6EF`, `#FCFAF6`)
-  - Deep Espresso Brown (`#2B1B14`, `#1A100C`)
-  - Sage Green Botanical Accent (`#7A8F6B`)
-  - Soft Blush / Terracotta Highlight (`#D9A88F`)
-  - Warm Artisan Gold Detail (`#C5A059`)
+  - Warm Terracotta (`#C85A32`, `#E07A5F`)
+  - Marigold / Saffron (`#EAA023`, `#F3C065`)
+  - Deep Espresso Brown (`#231610`, `#170D08`)
+  - Deep Indigo / Royal Navy (`#1E2C3D`)
+  - Sage Herbal Accent (`#6F8769`)
+  - Warm Ivory & Jaali Background (`#FCF9F3`, `#F5EFE4`)
 - **Typography**: Playfair Display (editorial serif) paired with DM Sans (clean modern sans).
-- **Context**: Authentic Indian specialty coffee landscape with ₹ INR pricing, Western Ghats single origins (Chikmagalur, Coorg, Attikan), and Nashik local touchpoints.
+- **Indian Design Accents**: Subtle jaali (lattice) backgrounds, arch-shaped image frames, lily mandala emblem, and FSSAI veg/non-veg indicator badges.
+- **Context**: Authentic Indian cafe landscape with ₹ INR pricing, +91 phone formatting, Nashik address, and WhatsApp instant ordering.
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 🛠️ Tech Stack & Key Features
 
 - **Framework**: [Next.js 14+ (App Router)](https://nextjs.org/)
 - **Language**: TypeScript (strict type checking & interfaces)
-- **Styling**: Tailwind CSS with custom design tokens in `tailwind.config.ts`
+- **Styling**: Tailwind CSS with Indian cafe tokens (`terracotta`, `marigold`, `espresso`, `sage`, `indigo`)
 - **Animations**:
-  - [Framer Motion](https://www.framer.com/motion/) for scroll reveals, staggered entry, tab transitions via `AnimatePresence`, floating badges, and interactive drawers
+  - [Framer Motion](https://www.framer.com/motion/) for scroll reveals, staggered entry, tab transitions via `AnimatePresence`, floating badges, and cart drawer
   - Respects user accessibility preferences (`prefers-reduced-motion`)
 - **Smooth Scroll**: [Lenis](https://github.com/darkroomengineering/lenis) smooth scrolling with automatic cleanup and floating scroll-to-top trigger
 - **Forms & Validation**: [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) schema validation + [Canvas Confetti](https://github.com/catdad/canvas-confetti)
-- **Image Optimization**: `next/image` with configured remote patterns for Unsplash (`?auto=format&fit=crop&w=1200&q=80`) and responsive `sizes`
-- **Icons**: [Lucide React](https://lucide.dev/)
+- **Image Resilience (`SafeImage`)**:
+  - Fixed aspect ratio wrappers preventing layout shifts
+  - Shimmer loading skeletons
+  - Local SVG fallback (`/images/fallback.svg`) on image load errors
+  - Build-time verification script (`npm run check:images`)
+- **Interactive Mini-Cart & WhatsApp Ordering**:
+  - "Add to order" on any menu card
+  - Persistent cart state in `localStorage`
+  - Sliding cart drawer with item counter, quantity controls, and total in ₹
+  - Instant WhatsApp checkout generating a pre-formatted order message to `siteConfig.whatsappNumber`
+  - Floating WhatsApp chat button for direct inquiries
 - **SEO & Performance**:
   - Full Open Graph & Twitter metadata per route
-  - Google Structured Data (`CafeOrCoffeeShop` JSON-LD schema with geo coordinates, opening hours, and menu link)
+  - Google Structured Data (`CafeOrCoffeeShop` JSON-LD schema with Indian cuisine, geo coordinates, opening hours, and menu link)
   - Dynamic `sitemap.ts` and `robots.ts`
   - Custom 404 page (`not-found.tsx`) and error boundary (`error.tsx`)
 

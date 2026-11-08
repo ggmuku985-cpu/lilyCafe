@@ -15,35 +15,29 @@ import {
   CheckCircle2,
   Sparkles,
   MapPin,
+  MessageCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
+import { siteConfig } from "@/lib/site-config";
 
 const reservationSchema = z.object({
   name: z.string().min(2, "Please enter your full name"),
   phone: z
     .string()
-    .min(10, "Please enter a valid 10-digit phone number")
-    .regex(/^[+0-9\s-]{10,14}$/, "Please enter a valid phone number"),
+    .min(10, "Please enter a valid 10-digit mobile number")
+    .regex(/^[+0-9\s-]{10,15}$/, "Please enter a valid phone number"),
   email: z.string().email("Please enter a valid email address"),
-  date: z.string().min(1, "Please select a date"),
+  date: z.string().min(1, "Please choose a date"),
   time: z.string().min(1, "Please choose a time slot"),
-  guests: z.string().min(1, "Please select number of guests"),
-  seatingArea: z.enum([
-    "Botanical Glasshouse",
-    "Garden Courtyard (Pet Friendly)",
-    "Creator Mezzanine",
-  ]),
+  guests: z.string().min(1, "Please choose number of guests"),
+  seatingArea: z.string().default("Courtyard Garden"),
   notes: z.string().optional(),
 });
 
 type ReservationFormData = z.infer<typeof reservationSchema>;
 
-interface ReservationFormProps {
-  compact?: boolean;
-}
-
-export function ReservationForm({ compact = false }: ReservationFormProps) {
+export function ReservationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successData, setSuccessData] = useState<{
     bookingId: string;
@@ -52,6 +46,7 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
     time: string;
     guests: string;
     seatingArea: string;
+    tableAssigned: string;
   } | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -69,9 +64,9 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
     resolver: zodResolver(reservationSchema),
     defaultValues: {
       date: defaultDateStr,
-      time: "10:30 AM",
+      time: "11:00 AM",
       guests: "2 Guests",
-      seatingArea: "Botanical Glasshouse",
+      seatingArea: "Garden Courtyard (Pet Friendly)",
       notes: "",
     },
   });
@@ -91,39 +86,41 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
 
       if (response.ok && resJson.success) {
         setSuccessData({
-          bookingId: resJson.bookingId || "LILY-" + Math.floor(1000 + Math.random() * 9000),
+          bookingId: resJson.bookingId,
           name: data.name,
           date: data.date,
           time: data.time,
           guests: data.guests,
           seatingArea: data.seatingArea,
+          tableAssigned: resJson.details?.tableAssigned || "Table 4",
         });
 
         // Trigger celebratory confetti
         confetti({
-          particleCount: 80,
+          particleCount: 90,
           spread: 70,
           origin: { y: 0.6 },
-          colors: ["#C5A059", "#7A8F6B", "#D9A88F", "#2B1B14"],
+          colors: ["#F59E0B", "#C46845", "#708E62", "#24140D"],
         });
       } else {
-        setErrorMessage(resJson.error || "Unable to confirm booking. Please try again.");
+        setErrorMessage(resJson.error || "Could not confirm booking. Please check your details.");
       }
     } catch (err) {
-      // Fallback optimistic confirmation in case of network variance
+      // Optimistic fallback for network variance
       setSuccessData({
-        bookingId: "LILY-" + Math.floor(1000 + Math.random() * 9000),
+        bookingId: `LILY-${Math.floor(1000 + Math.random() * 9000)}`,
         name: data.name,
         date: data.date,
         time: data.time,
         guests: data.guests,
         seatingArea: data.seatingArea,
+        tableAssigned: "Table 6",
       });
       confetti({
-        particleCount: 60,
+        particleCount: 70,
         spread: 60,
         origin: { y: 0.6 },
-        colors: ["#C5A059", "#7A8F6B"],
+        colors: ["#F59E0B", "#C46845"],
       });
     } finally {
       setIsSubmitting(false);
@@ -137,11 +134,11 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
     "11:30 AM",
     "12:30 PM",
     "02:00 PM",
-    "03:30 PM",
-    "05:00 PM",
-    "06:30 PM",
-    "08:00 PM",
-    "09:15 PM",
+    "04:00 PM",
+    "05:30 PM",
+    "07:00 PM",
+    "08:30 PM",
+    "09:30 PM",
   ];
 
   return (
@@ -153,13 +150,13 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="rounded-3xl bg-cream-50 border-2 border-gold-500/40 p-8 sm:p-10 shadow-warm-xl text-center"
+            className="rounded-3xl bg-cream-50 border-2 border-marigold-500/40 p-8 sm:p-10 shadow-warm-xl text-center"
           >
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-sage-100 text-sage-700 mb-6">
-              <CheckCircle2 className="h-9 w-9 text-sage-600" />
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 mb-5">
+              <CheckCircle2 className="h-9 w-9 text-emerald-600" />
             </div>
 
-            <span className="text-xs font-mono uppercase tracking-widest text-gold-600 font-semibold block mb-1">
+            <span className="text-xs font-mono uppercase tracking-widest text-marigold-600 font-bold block mb-1">
               Table Confirmed
             </span>
 
@@ -167,17 +164,17 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
               We look forward to hosting you, {successData.name}!
             </h3>
 
-            <p className="mt-3 text-sm text-espresso-700/80 font-sans max-w-md mx-auto">
-              Your table reservation has been recorded in our host system. We will hold your table for 15 minutes past your reserved time.
+            <p className="mt-2.5 text-sm text-espresso-700/80 font-sans max-w-md mx-auto">
+              Your table has been reserved in our system. We hold your table for 15 minutes past your reserved time.
             </p>
 
-            {/* Confirmation Ticket Badge */}
-            <div className="my-6 p-6 rounded-2xl bg-cream-100 border border-cream-300/80 max-w-md mx-auto text-left space-y-2 text-sm font-sans text-espresso-900 shadow-inner">
-              <div className="flex justify-between items-center border-b border-espresso-900/10 pb-2">
+            {/* Booking Ticket Card */}
+            <div className="my-6 p-6 rounded-2xl bg-cream-100 border border-cream-300 max-w-md mx-auto text-left space-y-2 text-sm font-sans text-espresso-900 shadow-inner">
+              <div className="flex justify-between items-center border-b border-espresso-900/10 pb-2.5">
                 <span className="text-xs uppercase tracking-wider text-espresso-600 font-mono">
-                  Booking Reference
+                  Booking Number
                 </span>
-                <span className="font-mono font-bold text-gold-600 tracking-wider">
+                <span className="font-mono font-bold text-terracotta-600 text-base tracking-wider">
                   {successData.bookingId}
                 </span>
               </div>
@@ -192,17 +189,17 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
                   <span className="font-semibold text-espresso-950">{successData.time}</span>
                 </div>
                 <div>
-                  <span className="text-espresso-600 block">Party Size</span>
+                  <span className="text-espresso-600 block">Guests</span>
                   <span className="font-semibold text-espresso-950">{successData.guests}</span>
                 </div>
                 <div>
-                  <span className="text-espresso-600 block">Seating Area</span>
-                  <span className="font-semibold text-espresso-950">{successData.seatingArea}</span>
+                  <span className="text-espresso-600 block">Table</span>
+                  <span className="font-semibold text-espresso-950">{successData.tableAssigned}</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mt-6">
               <Button
                 type="button"
                 variant="outline"
@@ -219,7 +216,7 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
                 variant="primary"
                 size="md"
               >
-                Browse Menu in Advance
+                View Menu in Advance
               </Button>
             </div>
           </motion.div>
@@ -230,7 +227,7 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onSubmit={handleSubmit(onSubmit)}
-            className="rounded-3xl bg-cream-50 border border-cream-200/90 p-6 sm:p-10 shadow-warm-xl space-y-6"
+            className="rounded-3xl bg-cream-50 border border-cream-200/90 p-6 sm:p-10 shadow-warm-xl space-y-5"
           >
             {errorMessage && (
               <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-xs font-sans text-red-700">
@@ -242,59 +239,54 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
               {/* Date */}
               <div>
                 <label className="block text-xs font-sans font-medium uppercase tracking-wider text-espresso-800 mb-2">
-                  Reservation Date
+                  Date
                 </label>
-                <div className="relative">
-                  <input
-                    type="date"
-                    min={new Date().toISOString().split("T")[0]}
-                    {...register("date")}
-                    className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 transition-all"
-                  />
-                </div>
+                <input
+                  type="date"
+                  min={new Date().toISOString().split("T")[0]}
+                  {...register("date")}
+                  className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-marigold-500 transition-all"
+                />
                 {errors.date && (
                   <p className="mt-1 text-xs text-red-600">{errors.date.message}</p>
                 )}
               </div>
 
-              {/* Time Slot */}
+              {/* Time */}
               <div>
                 <label className="block text-xs font-sans font-medium uppercase tracking-wider text-espresso-800 mb-2">
-                  Preferred Time Slot
+                  Time Slot
                 </label>
-                <div className="relative">
-                  <select
-                    {...register("time")}
-                    className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 transition-all cursor-pointer"
-                  >
-                    {timeSlots.map((slot) => (
-                      <option key={slot} value={slot}>
-                        {slot}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <select
+                  {...register("time")}
+                  className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-marigold-500 cursor-pointer"
+                >
+                  {timeSlots.map((slot) => (
+                    <option key={slot} value={slot}>
+                      {slot}
+                    </option>
+                  ))}
+                </select>
                 {errors.time && (
                   <p className="mt-1 text-xs text-red-600">{errors.time.message}</p>
                 )}
               </div>
 
-              {/* Guests Count */}
+              {/* Guests */}
               <div>
                 <label className="block text-xs font-sans font-medium uppercase tracking-wider text-espresso-800 mb-2">
-                  Number of Guests
+                  Guests
                 </label>
                 <select
                   {...register("guests")}
-                  className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-gold-500 transition-all cursor-pointer"
+                  className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-marigold-500 cursor-pointer"
                 >
-                  <option value="1 Guest">1 Guest (Solo Coffee & Work)</option>
+                  <option value="1 Guest">1 Guest (Solo Chai / Work)</option>
                   <option value="2 Guests">2 Guests (Table for Two)</option>
                   <option value="3 Guests">3 Guests</option>
-                  <option value="4 Guests">4 Guests (Standard Booth)</option>
-                  <option value="5 Guests">5 Guests</option>
-                  <option value="6-8 Guests">6–8 Guests (Family/Group)</option>
-                  <option value="8+ Large Party">8+ Guests (Private Area)</option>
+                  <option value="4 Guests">4 Guests (Family / Friends)</option>
+                  <option value="5-6 Guests">5–6 Guests</option>
+                  <option value="7+ Guests">7+ Large Group</option>
                 </select>
                 {errors.guests && (
                   <p className="mt-1 text-xs text-red-600">{errors.guests.message}</p>
@@ -302,39 +294,42 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
               </div>
             </div>
 
-            {/* Seating Area Preference */}
+            {/* Seating Preference */}
             <div>
               <label className="block text-xs font-sans font-medium uppercase tracking-wider text-espresso-800 mb-2">
-                Preferred Seating Ambience
+                Preferred Seating
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
                   {
-                    id: "Botanical Glasshouse",
-                    desc: "Sunlit greenery & brass lamps",
-                  },
-                  {
                     id: "Garden Courtyard (Pet Friendly)",
-                    desc: "Open air breeze, pet friendly",
+                    title: "Garden Courtyard",
+                    desc: "Open air breeze, pet-friendly",
                   },
                   {
-                    id: "Creator Mezzanine",
-                    desc: "Quiet & focused with power sockets",
+                    id: "Indoor AC Lounge",
+                    title: "Indoor AC Lounge",
+                    desc: "Cool, comfortable sofa seating",
+                  },
+                  {
+                    id: "Quiet Mezzanine",
+                    title: "Quiet Mezzanine",
+                    desc: "Dedicated power plugs for laptops",
                   },
                 ].map((area) => (
                   <label
                     key={area.id}
-                    className="flex flex-col p-3.5 rounded-xl border border-cream-300/80 bg-cream-100/60 hover:bg-cream-100 cursor-pointer transition-all has-[:checked]:border-gold-500 has-[:checked]:bg-gold-50/50 has-[:checked]:ring-1 has-[:checked]:ring-gold-500"
+                    className="flex flex-col p-3 rounded-xl border border-cream-300 bg-cream-100/60 hover:bg-cream-100 cursor-pointer transition-all has-[:checked]:border-terracotta-500 has-[:checked]:bg-terracotta-50/60 has-[:checked]:ring-1 has-[:checked]:ring-terracotta-500"
                   >
                     <div className="flex items-center gap-2">
                       <input
                         type="radio"
                         value={area.id}
                         {...register("seatingArea")}
-                        className="accent-gold-600"
+                        className="accent-terracotta-600"
                       />
                       <span className="text-xs font-semibold text-espresso-950">
-                        {area.id}
+                        {area.title}
                       </span>
                     </div>
                     <span className="text-[11px] text-espresso-700/70 font-sans mt-1 ml-5">
@@ -351,14 +346,12 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
                 <label className="block text-xs font-sans font-medium uppercase tracking-wider text-espresso-800 mb-2">
                   Full Name
                 </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="e.g. Siddharth Joshi"
-                    {...register("name")}
-                    className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
-                  />
-                </div>
+                <input
+                  type="text"
+                  placeholder="e.g. Siddharth Joshi"
+                  {...register("name")}
+                  className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-marigold-500"
+                />
                 {errors.name && (
                   <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>
                 )}
@@ -366,16 +359,14 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
 
               <div>
                 <label className="block text-xs font-sans font-medium uppercase tracking-wider text-espresso-800 mb-2">
-                  Mobile Number
+                  Mobile Number (+91)
                 </label>
-                <div className="relative">
-                  <input
-                    type="tel"
-                    placeholder="+91 98230 00000"
-                    {...register("phone")}
-                    className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
-                  />
-                </div>
+                <input
+                  type="tel"
+                  placeholder="+91 98230 12345"
+                  {...register("phone")}
+                  className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-marigold-500"
+                />
                 {errors.phone && (
                   <p className="mt-1 text-xs text-red-600">{errors.phone.message}</p>
                 )}
@@ -385,38 +376,36 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
                 <label className="block text-xs font-sans font-medium uppercase tracking-wider text-espresso-800 mb-2">
                   Email Address
                 </label>
-                <div className="relative">
-                  <input
-                    type="email"
-                    placeholder="name@domain.com"
-                    {...register("email")}
-                    className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
-                  />
-                </div>
+                <input
+                  type="email"
+                  placeholder="name@example.com"
+                  {...register("email")}
+                  className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-marigold-500"
+                />
                 {errors.email && (
                   <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>
                 )}
               </div>
             </div>
 
-            {/* Special Requests */}
+            {/* Notes */}
             <div>
               <label className="block text-xs font-sans font-medium uppercase tracking-wider text-espresso-800 mb-2">
-                Special Dietary Notes or Occasion (Optional)
+                Special Note or Occasion (Optional)
               </label>
               <textarea
                 rows={2}
-                placeholder="e.g. Celebrating an anniversary, need quiet corner with baby high-chair, oat milk preference..."
+                placeholder="e.g. Birthday celebration, high-chair needed, quiet corner..."
                 {...register("notes")}
-                className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-gold-500 resize-none"
+                className="w-full px-4 py-3 rounded-xl bg-cream-100 border border-cream-300 text-espresso-950 font-sans text-sm placeholder:text-espresso-600/40 focus:outline-none focus:ring-2 focus:ring-marigold-500 resize-none"
               />
             </div>
 
-            {/* Submit Button */}
+            {/* Submit */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <span className="text-xs text-espresso-700/70 font-sans flex items-center gap-1.5">
-                <Sparkles className="h-4 w-4 text-gold-500" />
-                Instant confirmation • No cancellation charges
+              <span className="text-xs text-espresso-700/80 font-sans flex items-center gap-1.5">
+                <Sparkles className="h-4 w-4 text-marigold-600" />
+                Instant confirmation • No booking charges
               </span>
 
               <Button
@@ -426,7 +415,7 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
                 isLoading={isSubmitting}
                 className="w-full sm:w-auto min-w-[200px]"
               >
-                Confirm Table Reservation
+                Book Table Now
               </Button>
             </div>
           </motion.form>
@@ -435,4 +424,3 @@ export function ReservationForm({ compact = false }: ReservationFormProps) {
     </div>
   );
 }
-

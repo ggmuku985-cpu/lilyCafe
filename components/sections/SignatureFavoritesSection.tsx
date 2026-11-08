@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { MENU_ITEMS } from "@/data/menu";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { MenuCard } from "@/components/ui/MenuCard";
@@ -7,17 +6,20 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 
 export function SignatureFavoritesSection() {
-  // Select 6 iconic favorites (cross-category highlights)
-  const signatureItems = MENU_ITEMS.filter((item) => item.isChefsPick || item.isBestseller).slice(0, 6);
+  // 6 iconic Indian cafe signature favorites
+  const signatureIds = ["ck-1", "ck-5", "bs-4", "sb-1", "bs-5", "db-1"];
+  const signatureItems = signatureIds
+    .map((id) => MENU_ITEMS.find((i) => i.id === id))
+    .filter(Boolean) as typeof MENU_ITEMS;
 
   return (
-    <section className="py-20 md:py-32 bg-cream-100 relative overflow-hidden">
+    <section className="py-20 md:py-28 bg-cream-50 relative overflow-hidden bg-jaali-subtle">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>
           <SectionHeading
-            eyebrow="Crafted for the Senses"
-            title="Signature Roastery Favorites"
-            subtitle="The recipes that define Café Lily: thoughtfully sourced, meticulously extracted, and plated fresh every single morning."
+            eyebrow="Guest Favorites"
+            title="Our Signature Dishes"
+            subtitle="The flavors our guests come back for: authentic chais, slow-steeped filter kaapi, warm snacks, and house-made desserts."
             align="center"
           />
         </Reveal>
@@ -33,14 +35,14 @@ export function SignatureFavoritesSection() {
 
         {/* Bottom CTA to Full Menu */}
         <div className="mt-14 text-center">
-          <Reveal delay={0.4}>
+          <Reveal delay={0.3}>
             <Button
               href="/menu"
               variant="outline"
               size="lg"
               rightIcon={<ArrowRight className="h-4 w-4" />}
             >
-              Browse Complete Menu (30+ items)
+              Browse Complete Menu (38 items in ₹)
             </Button>
           </Reveal>
         </div>
@@ -48,4 +50,3 @@ export function SignatureFavoritesSection() {
     </section>
   );
 }
-

@@ -1,12 +1,11 @@
 <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="24" cy="24" r="22" fill="#2B1B14" />
+  <circle cx="24" cy="24" r="22" fill="#24140D" />
+  <circle cx="24" cy="24" r="19" stroke="#F59E0B" stroke-width="1.2" stroke-dasharray="2 2" opacity="0.6"/>
   <g transform="translate(24, 25)">
-    <path d="M0 6 C0 0 -2 -10 0 -13" stroke="#C5A059" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="0" cy="-14" r="2" fill="#C5A059" />
-    <path d="M0 6 C-4 2 -7 -6 0 -16 C7 -6 4 2 0 6 Z" fill="#FAF6EF" />
-    <path d="M0 6 C-6 4 -12 -1 -12 -8 C-12 -12 -7 -14 -4 -10 C-2 -6 -1 1 0 6 Z" fill="#7A8F6B" />
-    <path d="M0 6 C6 4 12 -1 12 -8 C12 -12 7 -14 4 -10 C2 -6 1 1 0 6 Z" fill="#D9A88F" />
-    <path d="M0 6 C0 11 -2 15 -4 18" stroke="#FAF6EF" stroke-width="2" stroke-linecap="round"/>
+    <path d="M0 6 C0 0 -1.5 -8 0 -13" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="0" cy="-14" r="2" fill="#F59E0B" />
+    <path d="M0 6 C-4 2 -6.5 -5 0 -15 C6.5 -5 4 2 0 6 Z" fill="#FAF6EF" />
+    <path d="M0 6 C-5.5 3.5 -12 0 -12 -7 C-12 -11 -7 -13 -4 -9 C-2 -5 -0.5 1 0 6 Z" fill="#C46845" />
+    <path d="M0 6 C5.5 3.5 12 0 12 -7 C12 -11 7 -13 4 -9 C2 -5 0.5 1 0 6 Z" fill="#F59E0B" />
   </g>
 </svg>
-

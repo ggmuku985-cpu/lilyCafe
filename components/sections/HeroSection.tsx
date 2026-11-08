@@ -3,70 +3,71 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, Sparkles, Coffee, Calendar } from "lucide-react";
+import { Coffee, Calendar, Sparkles, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { siteConfig } from "@/lib/site-config";
 
 export function HeroSection() {
   const { scrollY } = useScroll();
-  const yImage = useTransform(scrollY, [0, 600], [0, 100]);
-  const opacityImage = useTransform(scrollY, [0, 500], [1, 0.7]);
+  const yImage = useTransform(scrollY, [0, 600], [0, 80]);
 
   return (
-    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-cream-100 pt-20 pb-16">
-      {/* Background Image with subtle Parallax */}
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-espresso-950 pt-24 pb-16">
+      {/* High-Resolution Sharp Hero Background Image with Gentle Parallax (NO blur, NO wash-out) */}
       <motion.div
-        style={{ y: yImage, opacity: opacityImage }}
+        style={{ y: yImage }}
         className="absolute inset-0 z-0 select-none pointer-events-none"
       >
         <Image
-          src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1920&q=80"
-          alt="Cafe Lily serene botanical interior with warm morning light"
+          src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=2000&q=85"
+          alt="Café Lily warm artisan interior and coffee bar"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center brightness-[0.88] contrast-[1.02]"
+          className="object-cover object-center"
         />
-        {/* Warm multi-stop gradient scrim */}
-        <div className="absolute inset-0 bg-gradient-to-t from-cream-100 via-cream-100/60 to-cream-100/30" />
-        <div className="absolute inset-0 bg-espresso-950/20 mix-blend-multiply" />
+
+        {/* Rich Dark Gradient Overlay (35% to 55% black, darker behind text & bottom) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-espresso-950/85 via-espresso-950/50 to-espresso-950/35" />
+        <div className="absolute inset-0 bg-espresso-950/25" />
       </motion.div>
 
-      {/* Hero Content */}
+      {/* Hero Content with Crisp White & Cream Typography */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center pt-8">
         {/* Floating Pill Eyebrow */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-gold-500/40 bg-cream-100/80 backdrop-blur-md shadow-warm mb-6"
+          className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-marigold-400/40 bg-espresso-900/70 backdrop-blur-md shadow-warm mb-6 text-cream-50"
         >
-          <Sparkles className="h-3.5 w-3.5 text-gold-600" />
-          <span className="text-xs md:text-sm font-sans font-medium tracking-wider uppercase text-espresso-900">
-            Specialty Roastery &amp; Botanical Sanctuary • Nashik
+          <Sparkles className="h-3.5 w-3.5 text-marigold-400" />
+          <span className="text-xs md:text-sm font-sans font-medium tracking-wider uppercase text-cream-100">
+            Chai, Kaapi &amp; Artisan Bakes • Nashik
           </span>
         </motion.div>
 
-        {/* Main Headline */}
+        {/* Main Headline in Crisp White with Golden Accent */}
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
-          className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-espresso-950 font-normal tracking-tight leading-[1.05] max-w-4xl"
+          className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white font-normal tracking-tight leading-[1.06] max-w-4xl drop-shadow-md"
         >
-          Where every cup <span className="italic font-normal text-gold-600">blooms.</span>
+          Where every cup <span className="italic font-normal text-marigold-400">blooms.</span>
         </motion.h1>
 
-        {/* Subtext */}
+        {/* Simple, Warm Subtext in Cream */}
         <motion.p
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
-          className="mt-6 md:mt-8 text-base sm:text-lg md:text-xl text-espresso-800/85 font-sans max-w-2xl leading-relaxed"
+          className="mt-6 md:mt-8 text-base sm:text-lg md:text-xl text-cream-100/90 font-sans max-w-2xl leading-relaxed drop-shadow-sm"
         >
-          Handcrafted single-origin coffees from heritage Southern Indian estates, slow European viennoiserie, and sunlit botanical spaces curated for peaceful mornings.
+          Fresh coffee, warm kulhad chai, and homemade comfort snacks. Tucked inside a peaceful garden on Gangapur Road, Nashik.
         </motion.p>
 
-        {/* CTAs */}
+        {/* Action CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,43 +76,43 @@ export function HeroSection() {
         >
           <Button
             href="/menu"
-            variant="primary"
+            variant="gold"
             size="lg"
-            className="w-full sm:w-auto"
-            leftIcon={<Coffee className="h-5 w-5 text-gold-400" />}
+            className="w-full sm:w-auto bg-marigold-500 hover:bg-marigold-600 text-espresso-950 font-semibold"
+            leftIcon={<Coffee className="h-5 w-5 text-espresso-950" />}
           >
-            Explore Specialty Menu
+            View Menu
           </Button>
 
           <Button
             href="/reservations"
             variant="outline"
             size="lg"
-            className="w-full sm:w-auto bg-cream-100/60 backdrop-blur-sm border-espresso-900/40 hover:bg-cream-100 hover:border-espresso-900"
-            leftIcon={<Calendar className="h-5 w-5 text-espresso-800" />}
+            className="w-full sm:w-auto border-cream-100/50 text-white hover:bg-white/10 hover:border-white backdrop-blur-xs"
+            leftIcon={<Calendar className="h-5 w-5 text-marigold-400" />}
           >
-            Reserve a Table
+            Book a Table
           </Button>
         </motion.div>
 
-        {/* Highlight Feature Badges underneath */}
+        {/* Highlight Feature Badges */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.9, delay: 0.65 }}
-          className="mt-12 md:mt-16 flex flex-wrap justify-center items-center gap-6 md:gap-10 text-xs font-sans text-espresso-800/80"
+          className="mt-12 md:mt-16 flex flex-wrap justify-center items-center gap-6 md:gap-10 text-xs sm:text-sm font-sans text-cream-200/90"
         >
           <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-sage-500" />
-            <span>Direct Shade-Grown Sourcing</span>
+            <span className="h-2 w-2 rounded-full bg-marigold-400" />
+            <span>Pure Clay Kulhad Chai</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-terracotta-400" />
-            <span>Baked Fresh at 7:30 AM Daily</span>
+            <span className="h-2 w-2 rounded-full bg-terracotta-400" />
+            <span>South Indian Filter Kaapi</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-gold-500" />
-            <span>Pet &amp; Creator Friendly</span>
+            <span className="h-2 w-2 rounded-full bg-emerald-400" />
+            <span>100% Homemade Snacks</span>
           </div>
         </motion.div>
 
@@ -123,18 +124,18 @@ export function HeroSection() {
           className="mt-12 md:mt-16"
         >
           <a
-            href="#story"
-            aria-label="Scroll down to explore story"
-            className="group flex flex-col items-center gap-2 text-espresso-700/60 hover:text-espresso-900 transition-colors"
+            href="#highlights"
+            aria-label="Scroll down to explore"
+            className="group flex flex-col items-center gap-2 text-cream-200/70 hover:text-white transition-colors"
           >
             <span className="text-[11px] uppercase tracking-widest font-sans font-medium">
-              Discover
+              Explore
             </span>
-            <div className="flex h-9 w-6 items-start justify-center rounded-full border-2 border-espresso-800/30 p-1">
+            <div className="flex h-9 w-6 items-start justify-center rounded-full border-2 border-cream-100/40 p-1">
               <motion.div
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-                className="h-1.5 w-1 rounded-full bg-espresso-800"
+                className="h-1.5 w-1 rounded-full bg-marigold-400"
               />
             </div>
           </a>
@@ -143,4 +144,3 @@ export function HeroSection() {
     </section>
   );
 }
-

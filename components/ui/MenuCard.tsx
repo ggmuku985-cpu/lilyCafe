@@ -1,57 +1,61 @@
 "use client";
 
-import Image from "next/image";
-import { Sparkles, Clock, Flame } from "lucide-react";
+import { Plus, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import type { MenuItem } from "@/data/menu";
-import { Badge } from "@/components/ui/Badge";
+import { Badge, VegIndicator } from "@/components/ui/Badge";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { formatPrice } from "@/lib/utils";
+import { useCart } from "@/lib/cart-context";
+import { useState } from "react";
 
 interface MenuCardProps {
   item: MenuItem;
-  onSelect?: (item: MenuItem) => void;
   priority?: boolean;
 }
 
-export function MenuCard({ item, onSelect, priority = false }: MenuCardProps) {
+export function MenuCard({ item, priority = false }: MenuCardProps) {
+  const { addToCart } = useCart();
+  const [justAdded, setJustAdded] = useState(false);
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addToCart(item);
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1200);
+  };
+
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, scale: 0.96 }}
+      initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.96 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      className="group relative flex flex-col rounded-3xl bg-cream-50 border border-cream-200/80 overflow-hidden shadow-warm hover:shadow-warm-xl transition-all duration-300 hover:-translate-y-1"
+      exit={{ opacity: 0, scale: 0.97 }}
+      transition={{ duration: 0.3 }}
+      className="group relative flex flex-col rounded-3xl bg-cream-50 border border-cream-200/90 overflow-hidden shadow-warm hover:shadow-warm-xl transition-all duration-300 hover:-translate-y-1"
     >
-      {/* Image Container with Hover Zoom */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-cream-200/50">
-        <Image
+      {/* Aspect-Ratio Image Container with SafeImage */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-cream-200">
+        <SafeImage
           src={item.image}
           alt={item.name}
-          fill
           priority={priority}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          className="transition-transform duration-500 ease-out group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-espresso-950/60 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
 
-        {/* Top Badges */}
+        {/* Top Floating Badge & Veg Dot */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-10">
-          <div className="flex flex-wrap gap-1.5">
-            {item.badges.map((badge) => (
-              <Badge key={badge} type={badge} size="sm" />
-            ))}
+          <div className="bg-white/95 px-2 py-1 rounded-md shadow-xs backdrop-blur-xs">
+            <VegIndicator type={item.dietary} showLabel />
           </div>
 
-          <div className="flex items-center gap-1">
-            {item.isBestseller && <Badge type="Bestseller" size="sm" />}
-            {item.isChefsPick && <Badge type="ChefsPick" size="sm" />}
-          </div>
+          {item.tag && <Badge type={item.tag} size="sm" />}
         </div>
 
         {/* Price Tag Overlay */}
         <div className="absolute bottom-3 right-3 z-10">
-          <span className="inline-flex items-center px-3 py-1 rounded-full font-serif text-sm font-semibold bg-espresso-900/90 text-gold-400 backdrop-blur-md shadow-sm border border-gold-500/20">
+          <span className="inline-flex items-center px-3 py-1 rounded-full font-serif text-sm font-bold bg-espresso-900/90 text-marigold-300 backdrop-blur-xs shadow-xs border border-marigold-500/20">
             {formatPrice(item.price)}
           </span>
         </div>
@@ -60,36 +64,44 @@ export function MenuCard({ item, onSelect, priority = false }: MenuCardProps) {
       {/* Content */}
       <div className="flex flex-col flex-grow p-5 sm:p-6 justify-between">
         <div>
-          <div className="flex items-baseline justify-between gap-2">
-            <h3 className="font-serif text-lg sm:text-xl font-normal text-espresso-950 group-hover:text-gold-600 transition-colors">
-              {item.name}
-            </h3>
-          </div>
+          <h3 className="font-serif text-lg sm:text-xl font-normal text-espresso-950 group-hover:text-terracotta-600 transition-colors">
+            {item.name}
+          </h3>
 
-          <p className="mt-2 text-xs sm:text-sm text-espresso-700/80 font-sans leading-relaxed line-clamp-3">
+          <p className="mt-2 text-xs sm:text-sm text-espresso-700/80 font-sans leading-relaxed line-clamp-2">
             {item.description}
           </p>
         </div>
 
-        {/* Meta Footnote */}
-        {(item.calories || item.prepTime) && (
-          <div className="mt-4 pt-3 border-t border-espresso-900/10 flex items-center justify-between text-[11px] font-sans text-espresso-600/70">
-            {item.prepTime && (
-              <span className="flex items-center gap-1">
-                <Clock className="h-3 w-3 text-gold-500" />
-                {item.prepTime}
-              </span>
+        {/* Bottom Action: Add to Order Button */}
+        <div className="mt-4 pt-3.5 border-t border-espresso-900/10 flex items-center justify-between">
+          <span className="font-serif text-base font-semibold text-espresso-950">
+            {formatPrice(item.price)}
+          </span>
+
+          <button
+            onClick={handleAdd}
+            className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-sans font-semibold transition-all duration-200 ${
+              justAdded
+                ? "bg-emerald-600 text-white scale-105"
+                : "bg-espresso-900 text-cream-50 hover:bg-terracotta-600 shadow-xs"
+            }`}
+            aria-label={`Add ${item.name} to order`}
+          >
+            {justAdded ? (
+              <>
+                <Check className="h-3.5 w-3.5" />
+                <span>Added</span>
+              </>
+            ) : (
+              <>
+                <Plus className="h-3.5 w-3.5" />
+                <span>Add to order</span>
+              </>
             )}
-            {item.calories && (
-              <span className="flex items-center gap-1">
-                <Flame className="h-3 w-3 text-terracotta-400" />
-                {item.calories}
-              </span>
-            )}
-          </div>
-        )}
+          </button>
+        </div>
       </div>
     </motion.div>
   );
 }
-

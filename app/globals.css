@@ -4,32 +4,52 @@
 
 :root {
   --background: #FAF6EF;
-  --foreground: #2B1B14;
+  --foreground: #24140D;
 }
 
 @layer base {
   * {
-    border-color: #E5DACB;
+    border-color: #EBE3D7;
   }
 
   html {
     scroll-behavior: smooth;
     background-color: #FAF6EF;
-    color: #2B1B14;
+    color: #24140D;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     background-color: #FAF6EF;
-    color: #2B1B14;
+    color: #24140D;
     overflow-x: hidden;
   }
 
   ::selection {
-    background-color: #D4AF37;
-    color: #1A100C;
+    background-color: #F59E0B;
+    color: #170C08;
   }
+}
+
+/* Subtle Indian Jaali (lattice) background pattern */
+.bg-jaali {
+  background-color: #FAF6EF;
+  background-image: radial-gradient(#C46845 0.75px, transparent 0.75px),
+    radial-gradient(#D4A338 0.75px, #FAF6EF 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+  background-opacity: 0.04;
+}
+
+.bg-jaali-subtle {
+  background-image: radial-gradient(rgba(196, 104, 69, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Indian Arch Clip Path */
+.clip-arch {
+  border-radius: 160px 160px 16px 16px;
 }
 
 /* Custom delicate scrollbar */
@@ -47,7 +67,7 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C4AA9B;
+  background: #C8B1A2;
 }
 
 /* Utility to hide scrollbars */
@@ -58,4 +78,3 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-

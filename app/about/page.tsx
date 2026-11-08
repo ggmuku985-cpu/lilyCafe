@@ -1,56 +1,58 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import {
   Sprout,
-  Sparkles,
   HeartHandshake,
-  Recycle,
+  Coffee,
+  Smile,
   MapPin,
   Mountain,
   Sun,
   Award,
   ArrowRight,
+  MessageCircle,
 } from "lucide-react";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { TEAM_MEMBERS, CAFE_VALUES } from "@/data/team";
+import { siteConfig, getWhatsAppGeneralUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Our Story & Ethos | Botanical Sanctuary & Roastery | Cafe Lily",
+  title: "About Us | Our Story & Team | Café Lily",
   description:
-    "Learn about the philosophy, agricultural ethics, and artisans behind Cafe Lily in Nashik. Direct estate sourcing, zero artificial additives, and slow coffee culture.",
+    "Learn about Café Lily on Gangapur Road, Nashik. Started by Rhea Sen to bring authentic Indian chais, South Indian estate coffee, and homemade comfort food together.",
   openGraph: {
-    title: "About Cafe Lily | Nashik, Maharashtra",
-    description: "Discover how Rhea Sen founded Cafe Lily to bring mindful estate coffee and botanical sanctuary to Nashik.",
+    title: "About Café Lily | Nashik, Maharashtra",
+    description: "Our story, our kitchen team, and the coffee estates we partner with.",
   },
 };
 
 const TIMELINE = [
   {
-    year: "2020",
-    title: "A Glasshouse Dream",
+    year: "2021",
+    title: "The Garden Vision",
     description:
-      "Certified Q-Grader Rhea Sen leaves metropolitan design studios to renovate an abandoned horticultural nursery on Gangapur Road into a sunlit roastery.",
+      "Rhea Sen returned home to Nashik with a dream of opening a relaxed garden cafe serving honest chai and good filter kaapi.",
   },
   {
-    year: "2022",
-    title: "Direct-to-Farmer Compact",
+    year: "2023",
+    title: "Chikmagalur Coffee Partnership",
     description:
-      "Partnered with three heritage shade estates in Chikmagalur and Biligiriranga Hills, bypassing middlemen and guaranteeing 35% above fair-trade floor prices.",
+      "Partnered directly with heritage shade-grown coffee farms in Karnataka to bring fresh roasted beans directly to Nashik.",
   },
   {
     year: "2024",
-    title: "Stone-Milled Hearth Bakery",
+    title: "The Bakery Kitchen",
     description:
-      "Executive Pastry Chef Ananya Verma joins, inaugurating our 72-hour wild sourdough fermentation program and French-Indian botanical viennoiserie.",
+      "Pastry Chef Priya joined our team, creating our signature Gulab Jamun Cheesecake, Mawa Cakes, and morning croissants.",
   },
   {
     year: "2026",
-    title: "The Botanical Cultural Hub",
+    title: "Nashik's Neighborhood Favorite",
     description:
-      "Recognized among India's most thoughtful independent specialty roasteries, welcoming daily creators, music evenings, and coffee cupping masterclasses.",
+      "A bustling community spot on Gangapur Road welcoming friends, families, college students, and remote workers every day.",
   },
 ];
 
@@ -58,46 +60,46 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen bg-cream-100">
       <PageHeader
-        breadcrumb="About Cafe Lily"
-        eyebrow="The Story Behind the Bloom"
-        title="We believe coffee should feel like breathing out."
-        description="Founded in Nashik, Maharashtra, Cafe Lily was born out of a yearning for slow mornings, honest agriculture, and spaces that honor nature's unhurried rhythm."
+        breadcrumb="About Us"
+        eyebrow="Our Story"
+        title="Good food, warm chai, and friendly faces."
+        description="We started Café Lily to create a welcoming neighborhood space where anyone can sit back, relax with a hot cup, and feel right at home."
       />
 
-      {/* Narrative Section with Large Imagery */}
-      <section className="py-20 md:py-28 bg-cream-50 overflow-hidden">
+      {/* Narrative Section */}
+      <section className="py-16 md:py-24 bg-cream-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-6 space-y-5">
               <Reveal>
-                <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-gold-600 font-semibold">
-                  <Sparkles className="h-4 w-4" />
-                  <span>The Lily Genesis</span>
+                <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-terracotta-600 font-semibold">
+                  <Coffee className="h-4 w-4" />
+                  <span>How It Started</span>
                 </div>
-                <h2 className="font-serif text-3xl sm:text-4xl text-espresso-950 font-normal leading-tight mt-2">
-                  Where botanical sanctuary meets precision extraction.
+                <h2 className="font-serif text-3xl sm:text-4xl text-espresso-950 font-normal leading-tight mt-1.5">
+                  A cozy corner in the heart of Nashik.
                 </h2>
               </Reveal>
 
               <Reveal delay={0.1}>
                 <p className="text-base font-sans text-espresso-800/85 leading-relaxed">
-                  In a world that celebrates faster turnaround times and mass-produced convenience, we chose the opposite direction. We built a cafe inside a restored botanical glasshouse where natural sunlight, living monstera vines, and the gentle whisper of steam wands set the tempo.
+                  In big cities, cafes can sometimes feel rushed or overly complicated. When we built Café Lily on Gangapur Road, we wanted the exact opposite. We wanted the easy-going charm of an old Irani cafe, mixed with a breezy green garden and the aroma of fresh bakes.
                 </p>
               </Reveal>
 
               <Reveal delay={0.2}>
                 <p className="text-base font-sans text-espresso-800/85 leading-relaxed">
-                  Every beverage served at Cafe Lily is a collaboration between multi-generational coffee farmers in Karnataka, ceramic potters in rural Maharashtra, and our team of obsessive baristas and pastry bakers.
+                  Everything we serve is made with care. Our spices are whole and aromatic, our milk is full-cream, our pav is soft, and our coffee is roasted fresh from Chikmagalur estates.
                 </p>
               </Reveal>
 
               <Reveal delay={0.3}>
-                <div className="p-6 rounded-2xl bg-cream-100 border border-gold-500/25 shadow-sm space-y-2">
-                  <span className="font-serif text-lg font-normal text-espresso-950 block italic">
-                    "A great cup of coffee does not shout. It reveals its character slowly, note by note, just as dawn breaks across the Western Ghats."
-                  </span>
-                  <span className="text-xs font-mono uppercase tracking-wider text-gold-600 block">
-                    — Rhea Sen, Founder &amp; Q-Grader
+                <div className="p-6 rounded-2xl bg-cream-100 border border-marigold-500/30 shadow-xs space-y-2">
+                  <p className="font-serif text-base sm:text-lg font-normal text-espresso-950 italic">
+                    &ldquo;When people visit Café Lily, we want them to feel like they are sitting in a good friend&apos;s garden enjoying a warm plate of food.&rdquo;
+                  </p>
+                  <span className="text-xs font-mono uppercase tracking-wider text-terracotta-700 block font-semibold">
+                    — Rhea Sen, Founder
                   </span>
                 </div>
               </Reveal>
@@ -105,15 +107,13 @@ export default function AboutPage() {
 
             <div className="lg:col-span-6 relative">
               <Reveal delay={0.2}>
-                <div className="relative h-[480px] sm:h-[540px] w-full rounded-3xl overflow-hidden shadow-warm-xl border border-cream-200">
-                  <Image
+                <div className="relative h-[420px] sm:h-[480px] w-full rounded-3xl overflow-hidden shadow-warm-xl border border-cream-200 bg-cream-200">
+                  <SafeImage
                     src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=80"
-                    alt="Rhea Sen inspecting estate coffee inside Cafe Lily conservatory"
+                    alt="Café Lily garden dining area"
                     fill
                     sizes="(max-width: 1024px) 100vw, 600px"
-                    className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-espresso-950/15" />
                 </div>
               </Reveal>
             </div>
@@ -122,34 +122,34 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline Section */}
-      <section className="py-20 md:py-28 bg-cream-100 border-t border-espresso-900/5">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 md:py-24 bg-cream-100 border-t border-espresso-900/5">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
             <SectionHeading
-              eyebrow="Milestones"
-              title="Our Journey of Growth"
-              subtitle="From a solitary drum roaster to a cherished gathering place for artists, coffee purists, and travelers."
+              eyebrow="Our Journey"
+              title="How We Grew"
+              subtitle="From an idea on a piece of paper to a bustling cafe loved by locals."
               align="center"
             />
           </Reveal>
 
-          <div className="mt-16 relative border-l-2 border-gold-500/40 ml-4 sm:ml-32 space-y-12">
+          <div className="mt-12 relative border-l-2 border-marigold-500/40 ml-4 sm:ml-28 space-y-10">
             {TIMELINE.map((item, index) => (
               <Reveal key={item.year} delay={index * 0.1}>
                 <div className="relative pl-8 sm:pl-10">
-                  {/* Timeline Dot */}
-                  <div className="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 border-cream-100 bg-gold-500 shadow-sm" />
+                  {/* Dot */}
+                  <div className="absolute -left-[9px] top-1 h-4 w-4 rounded-full border-2 border-cream-100 bg-marigold-500 shadow-xs" />
 
                   {/* Year Tag */}
-                  <span className="sm:absolute sm:-left-28 sm:top-0 font-serif text-2xl font-normal text-gold-600 tracking-wider">
+                  <span className="sm:absolute sm:-left-24 sm:top-0 font-serif text-2xl font-semibold text-terracotta-600">
                     {item.year}
                   </span>
 
-                  <h3 className="font-serif text-2xl text-espresso-950 font-normal">
+                  <h3 className="font-serif text-xl sm:text-2xl text-espresso-950 font-normal">
                     {item.title}
                   </h3>
 
-                  <p className="mt-2 text-sm sm:text-base text-espresso-700/80 font-sans leading-relaxed max-w-xl">
+                  <p className="mt-2 text-sm sm:text-base text-espresso-700/80 font-sans leading-relaxed">
                     {item.description}
                   </p>
                 </div>
@@ -159,54 +159,52 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Sourcing & Estate Story */}
-      <section className="py-20 md:py-28 bg-espresso-950 text-cream-100 relative overflow-hidden">
-        <div className="absolute top-0 right-10 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl pointer-events-none" />
-
+      {/* Sourcing Section */}
+      <section className="py-16 md:py-24 bg-espresso-950 text-cream-100 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal>
             <SectionHeading
-              eyebrow="Agricultural Stewardship"
-              title="Shade-Grown in the Western Ghats"
-              subtitle="The soul of our coffee lives in the mist-veiled canopies of Chikmagalur, Coorg, and Araku Valley."
+              eyebrow="Where It Comes From"
+              title="From Western Ghats Estates to Your Cup"
+              subtitle="We take pride in knowing exactly where our beans and tea leaves are harvested."
               align="center"
               light
             />
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
             <Reveal delay={0.1}>
-              <div className="p-8 rounded-3xl bg-espresso-900/80 border border-cream-100/10 shadow-warm">
-                <Mountain className="h-8 w-8 text-gold-400 mb-4" />
-                <h3 className="font-serif text-xl text-cream-50 font-normal">
-                  High-Elevation Microclimates
+              <div className="p-7 rounded-3xl bg-espresso-900/80 border border-cream-100/10 shadow-warm">
+                <Mountain className="h-7 w-7 text-marigold-400 mb-3.5" />
+                <h3 className="font-serif text-xl text-white font-normal">
+                  Chikmagalur Coffee Estates
                 </h3>
-                <p className="mt-3 text-sm text-cream-200/80 font-sans leading-relaxed">
-                  Grown at 1,100 to 1,450 meters above sea level where slow maturation concentrates natural fruit sugars and lively citric acids in the cherries.
+                <p className="mt-2.5 text-sm text-cream-200/80 font-sans leading-relaxed">
+                  High-altitude Arabica grown under silver oak shade in Karnataka. Handpicked cherries roasted in small batches for full aroma.
                 </p>
               </div>
             </Reveal>
 
             <Reveal delay={0.2}>
-              <div className="p-8 rounded-3xl bg-espresso-900/80 border border-cream-100/10 shadow-warm">
-                <Sun className="h-8 w-8 text-gold-400 mb-4" />
-                <h3 className="font-serif text-xl text-cream-50 font-normal">
-                  Native Canopy Shade
+              <div className="p-7 rounded-3xl bg-espresso-900/80 border border-cream-100/10 shadow-warm">
+                <Sun className="h-7 w-7 text-marigold-400 mb-3.5" />
+                <h3 className="font-serif text-xl text-white font-normal">
+                  Assam &amp; Nilgiri Tea Leaves
                 </h3>
-                <p className="mt-3 text-sm text-cream-200/80 font-sans leading-relaxed">
-                  Our partner estates cultivate coffee under double-tier native forest trees like silver oak and wild fig, preserving habitats for over 90 migratory bird species.
+                <p className="mt-2.5 text-sm text-cream-200/80 font-sans leading-relaxed">
+                  Whole leaf strong Assam CTC for our spiced masala chais, and delicate Nilgiri leaves for refreshing iced teas.
                 </p>
               </div>
             </Reveal>
 
             <Reveal delay={0.3}>
-              <div className="p-8 rounded-3xl bg-espresso-900/80 border border-cream-100/10 shadow-warm">
-                <Award className="h-8 w-8 text-gold-400 mb-4" />
-                <h3 className="font-serif text-xl text-cream-50 font-normal">
-                  Direct Transparent Trade
+              <div className="p-7 rounded-3xl bg-espresso-900/80 border border-cream-100/10 shadow-warm">
+                <Award className="h-7 w-7 text-marigold-400 mb-3.5" />
+                <h3 className="font-serif text-xl text-white font-normal">
+                  Local Nashik Farm Produce
                 </h3>
-                <p className="mt-3 text-sm text-cream-200/80 font-sans leading-relaxed">
-                  We visit every partner farm during harvest, cup with the growers on-site, and sign 3-year contracts that protect farm livelihoods regardless of global market speculation.
+                <p className="mt-2.5 text-sm text-cream-200/80 font-sans leading-relaxed">
+                  Fresh milk from local dairies, fresh farm vegetables, and seasonal fruits like Ratnagiri Alphonso mangoes and local strawberries.
                 </p>
               </div>
             </Reveal>
@@ -214,70 +212,36 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values Grid */}
-      <section className="py-20 md:py-28 bg-cream-50">
+      {/* Team Section */}
+      <section className="py-16 md:py-24 bg-cream-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
             <SectionHeading
-              eyebrow="Our North Star"
-              title="The Principles We Live By"
-              subtitle="Every decision, from the flour we mill to the ceramics we commission, is guided by these commitments."
+              eyebrow="Our Team"
+              title="The People Behind Your Daily Cup"
+              subtitle="Say hello to our friendly kitchen and counter team."
               align="center"
             />
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
-            {CAFE_VALUES.map((val, idx) => (
-              <Reveal key={val.title} delay={idx * 0.1}>
-                <div className="p-8 rounded-3xl bg-cream-100 border border-cream-200 shadow-warm flex flex-col justify-between h-full">
-                  <div>
-                    <span className="text-xs font-mono uppercase tracking-widest text-gold-600 font-semibold mb-3 block">
-                      Value 0{idx + 1}
-                    </span>
-                    <h3 className="font-serif text-xl text-espresso-950 font-normal">
-                      {val.title}
-                    </h3>
-                    <p className="mt-3 text-xs sm:text-sm text-espresso-700/80 font-sans leading-relaxed">
-                      {val.description}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Cards Section */}
-      <section className="py-20 md:py-28 bg-cream-100 border-t border-espresso-900/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal>
-            <SectionHeading
-              eyebrow="The Craftspeople"
-              title="Meet the Team Behind Lily"
-              subtitle="The roasters, bakers, and hosts pouring their craft into your daily ritual."
-              align="center"
-            />
-          </Reveal>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 mt-10">
             {TEAM_MEMBERS.map((member, index) => (
               <Reveal key={member.name} delay={index * 0.1}>
-                <div className="group rounded-3xl bg-cream-50 border border-cream-200/90 overflow-hidden shadow-warm hover:shadow-warm-xl transition-all duration-300 hover:-translate-y-1">
+                <div className="group rounded-3xl bg-cream-100 border border-cream-200/90 overflow-hidden shadow-warm hover:shadow-warm-xl transition-all duration-300 hover:-translate-y-1">
                   <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream-200">
-                    <Image
+                    <SafeImage
                       src={member.image}
                       alt={member.name}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-espresso-950/70 via-transparent to-transparent opacity-60" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-espresso-950/80 via-transparent to-transparent opacity-70" />
                     <div className="absolute bottom-3 left-3 right-3 text-cream-50">
-                      <span className="text-[11px] font-mono uppercase tracking-widest text-gold-400 block">
+                      <span className="text-[11px] font-mono uppercase tracking-widest text-marigold-300 block font-medium">
                         {member.role}
                       </span>
-                      <h4 className="font-serif text-xl font-normal">
+                      <h4 className="font-serif text-xl font-normal text-white">
                         {member.name}
                       </h4>
                     </div>
@@ -287,8 +251,8 @@ export default function AboutPage() {
                     <p className="text-xs font-sans text-espresso-700/80 leading-relaxed">
                       {member.bio}
                     </p>
-                    <div className="mt-4 pt-3 border-t border-espresso-900/10 text-[11px] font-sans text-espresso-600">
-                      <span className="text-gold-600 font-semibold block">Favorite Cup:</span>
+                    <div className="mt-3.5 pt-3 border-t border-espresso-900/10 text-[11px] font-sans text-espresso-600">
+                      <span className="text-terracotta-600 font-semibold block">Favorite Order:</span>
                       <span>{member.favoriteDrink}</span>
                     </div>
                   </div>
@@ -297,19 +261,27 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <div className="mt-16 text-center">
+          <div className="mt-14 text-center flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button
               href="/reservations"
               variant="primary"
               size="lg"
               rightIcon={<ArrowRight className="h-4 w-4" />}
             >
-              Come Meet Us in Nashik
+              Book a Table to Visit Us
             </Button>
+            <a
+              href={getWhatsAppGeneralUrl("general")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-sans font-semibold text-sm shadow-warm transition-all"
+            >
+              <MessageCircle className="h-4 w-4 fill-current" />
+              <span>Say Hello on WhatsApp</span>
+            </a>
           </div>
         </div>
       </section>
     </main>
   );
 }
-

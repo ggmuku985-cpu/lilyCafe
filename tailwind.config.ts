@@ -11,52 +11,76 @@ const config: Config = {
       colors: {
         cream: {
           50: "#FCFAF6",
-          100: "#FAF6EF", // primary background
-          200: "#F4EDE0",
-          300: "#ECE2D0",
+          100: "#FAF6EF", // primary warm background
+          200: "#F5EFEB",
+          300: "#EBE3D7",
           400: "#DFCDB5",
         },
         espresso: {
-          50: "#F3EEEB",
-          100: "#E2D5CD",
-          200: "#C4AA9B",
+          50: "#F5EFEA",
+          100: "#E5D7CE",
+          200: "#C8B1A2",
           400: "#8B6551",
-          700: "#4A3024",
-          800: "#36221A",
-          900: "#2B1B14", // primary brand espresso
-          950: "#1A100C", // deepest espresso
+          700: "#442A1D",
+          800: "#341E14",
+          900: "#24140D", // rich deep brown
+          950: "#170C08",
+        },
+        terracotta: {
+          50: "#FCF6F2",
+          100: "#F7E9E1",
+          200: "#EFD0C2",
+          300: "#E3B19A",
+          400: "#D3886A",
+          500: "#C46845", // warm Indian terracotta
+          600: "#A94F2E",
+          700: "#883D21",
+        },
+        marigold: {
+          50: "#FFFBEB",
+          100: "#FEF3C7",
+          200: "#FDE68A",
+          300: "#FCD34D",
+          400: "#FBBF24",
+          500: "#F59E0B", // warm marigold / saffron
+          600: "#D97706",
+          700: "#B45309",
         },
         sage: {
           50: "#F4F6F2",
-          100: "#E6ECE2",
-          200: "#D0DCC9",
-          400: "#9FB392",
-          500: "#7A8F6B", // primary sage accent
-          600: "#637655",
-          700: "#4D5C43",
-          800: "#384331",
+          100: "#E5ECE0",
+          200: "#CDDBC5",
+          400: "#99B28D",
+          500: "#708E62", // Indian leaf / botanical
+          600: "#59744D",
+          700: "#43583A",
         },
-        terracotta: {
-          50: "#FCF6F3",
-          100: "#F7EBE4",
-          200: "#EFD5C8",
-          300: "#E4BAA6",
-          400: "#D9A88F", // soft blush / terracotta highlight
-          500: "#C68E73",
-          600: "#AD7155",
+        indigo: {
+          800: "#1E2A38",
+          900: "#131C27", // deep royal indigo accent
+          950: "#0C121B",
+        },
+        teal: {
+          700: "#134E5E",
+          800: "#0F3E4B",
+          900: "#0A2F39",
         },
         gold: {
-          100: "#FBF5E5",
-          200: "#F4E5BE",
-          300: "#E8CD8B",
-          400: "#DCB862",
-          500: "#C5A059", // warm gold
-          600: "#A9823F",
+          100: "#FCF8EC",
+          200: "#F8ECCF",
+          300: "#EED799",
+          400: "#E3BE63",
+          500: "#D4A338", // artisan warm gold
+          600: "#B88625",
         },
       },
       fontFamily: {
         serif: ["var(--font-serif)", "Playfair Display", "Georgia", "serif"],
         sans: ["var(--font-sans)", "DM Sans", "sans-serif"],
+      },
+      borderRadius: {
+        arch: "160px 160px 16px 16px",
+        "arch-lg": "240px 240px 24px 24px",
       },
       keyframes: {
         marquee: {
@@ -67,21 +91,20 @@ const config: Config = {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.6" },
         },
-        float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-6px)" },
+        shimmer: {
+          "100%": { transform: "translateX(100%)" },
         },
       },
       animation: {
         marquee: "marquee 32s linear infinite",
         "pulse-subtle": "pulse-subtle 3s ease-in-out infinite",
-        float: "float 4s ease-in-out infinite",
+        shimmer: "shimmer 2s infinite",
       },
       boxShadow: {
-        warm: "0 10px 30px -10px rgba(43, 27, 20, 0.08), 0 4px 6px -2px rgba(43, 27, 20, 0.04)",
-        "warm-lg": "0 20px 40px -15px rgba(43, 27, 20, 0.12), 0 8px 16px -4px rgba(43, 27, 20, 0.06)",
-        "warm-xl": "0 25px 50px -12px rgba(43, 27, 20, 0.18)",
-        glow: "0 0 25px rgba(197, 160, 89, 0.25)",
+        warm: "0 10px 30px -10px rgba(36, 20, 13, 0.08), 0 4px 6px -2px rgba(36, 20, 13, 0.04)",
+        "warm-lg": "0 20px 40px -15px rgba(36, 20, 13, 0.12), 0 8px 16px -4px rgba(36, 20, 13, 0.06)",
+        "warm-xl": "0 25px 50px -12px rgba(36, 20, 13, 0.18)",
+        glow: "0 0 25px rgba(245, 158, 11, 0.25)",
       },
     },
   },
@@ -89,4 +112,3 @@ const config: Config = {
 };
 
 export default config;
-

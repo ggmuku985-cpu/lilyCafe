@@ -7,6 +7,10 @@ import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { CafeJsonLd } from "@/components/seo/JsonLd";
+import { CartProvider } from "@/lib/cart-context";
+import { CartDrawer } from "@/components/cart/CartDrawer";
+import { WhatsAppFloatingButton } from "@/components/ui/WhatsAppFloatingButton";
+import { siteConfig } from "@/lib/site-config";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -21,26 +25,27 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://cafelily.in"),
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Cafe Lily | Specialty Roastery & Botanical Sanctuary | Nashik",
-    template: "%s | Cafe Lily",
+    default: "Café Lily | Chai, Filter Kaapi & Artisan Bakes | Nashik",
+    template: "%s | Café Lily",
   },
   description:
-    "An artisanal specialty coffee roastery, botanical conservatory, and sourdough bakery on Gangapur Road, Nashik, Maharashtra. Single-origin coffees and mindful hospitality.",
+    "A welcoming Indian-style cafe on Gangapur Road, Nashik. Enjoy earthen kulhad chai, South Indian filter kaapi, warm bun maska, homemade snacks, and lush garden seating.",
   keywords: [
-    "Cafe Lily",
-    "specialty coffee Nashik",
+    "Café Lily",
     "best cafe in Nashik",
-    "single origin coffee Maharashtra",
+    "specialty coffee Nashik",
+    "kulhad chai Nashik",
+    "South Indian filter coffee",
     "Gangapur Road cafes",
-    "artisan sourdough bakery Nashik",
-    "botanical cafe",
     "pet friendly cafe Nashik",
+    "misal pav",
+    "bun maska",
   ],
-  authors: [{ name: "Cafe Lily Specialty Roasters" }],
-  creator: "Cafe Lily",
-  publisher: "Cafe Lily",
+  authors: [{ name: "Café Lily Team" }],
+  creator: "Café Lily",
+  publisher: "Café Lily",
   formatDetection: {
     email: false,
     address: false,
@@ -52,11 +57,11 @@ export const metadata: Metadata = {
     apple: "/logo.svg",
   },
   openGraph: {
-    title: "Cafe Lily | Where Every Cup Blooms",
+    title: "Café Lily | Where Every Cup Blooms",
     description:
-      "Specialty coffee roastery, botanical sanctuary, and sourdough bakery in Nashik, Maharashtra.",
-    url: "https://cafelily.in",
-    siteName: "Cafe Lily",
+      "Fresh coffee, warm chai, and homemade snacks in a peaceful garden setting in Nashik, Maharashtra.",
+    url: siteConfig.url,
+    siteName: "Café Lily",
     locale: "en_IN",
     type: "website",
     images: [
@@ -64,14 +69,14 @@ export const metadata: Metadata = {
         url: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80",
         width: 1200,
         height: 800,
-        alt: "Cafe Lily Botanical Sanctuary & Coffee Roastery",
+        alt: "Café Lily Warm Garden Cafe & Roastery",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cafe Lily | Specialty Roastery & Botanical Sanctuary",
-    description: "Single-origin coffees, fresh artisan bakes, and peaceful mornings in Nashik.",
+    title: "Café Lily | Chai, Filter Kaapi & Artisan Bakes",
+    description: "Your cozy neighborhood cafe on Gangapur Road, Nashik.",
     images: [
       "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80",
     ],
@@ -94,16 +99,19 @@ export default function RootLayout({
       <head>
         <CafeJsonLd />
       </head>
-      <body className="font-sans antialiased bg-cream-100 text-espresso-900 selection:bg-gold-500/30 selection:text-espresso-950">
-        <SmoothScroll>
-          <ScrollProgress />
-          <CustomCursor />
-          <Navbar />
-          {children}
-          <Footer />
-        </SmoothScroll>
+      <body className="font-sans antialiased bg-cream-100 text-espresso-900 selection:bg-marigold-500/30 selection:text-espresso-950">
+        <CartProvider>
+          <SmoothScroll>
+            <ScrollProgress />
+            <CustomCursor />
+            <Navbar />
+            {children}
+            <Footer />
+            <CartDrawer />
+            <WhatsAppFloatingButton />
+          </SmoothScroll>
+        </CartProvider>
       </body>
     </html>
   );
 }
-

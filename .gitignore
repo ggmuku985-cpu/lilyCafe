@@ -14,6 +14,9 @@
 # production
 /build
 
+# runtime submissions
+data/*.json
+
 # misc
 .DS_Store
 *.pem

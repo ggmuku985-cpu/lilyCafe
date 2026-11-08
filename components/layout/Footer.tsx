@@ -8,61 +8,71 @@ import {
   Facebook,
   Twitter,
   ArrowUpRight,
-  Heart,
+  MessageCircle,
 } from "lucide-react";
-import { Logo } from "@/components/ui/Logo";
+import { siteConfig, getWhatsAppGeneralUrl } from "@/lib/site-config";
 
 export function Footer() {
   const currentYear = 2026;
 
   return (
     <footer className="bg-espresso-950 text-cream-100 border-t border-espresso-900/60 pt-16 md:pt-20 pb-12 overflow-hidden relative">
-      {/* Decorative ambient glow */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-10 w-80 h-80 bg-sage-500/5 rounded-full blur-3xl pointer-events-none" />
+      {/* Decorative ambient elements */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-marigold-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-10 w-80 h-80 bg-terracotta-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 md:gap-12 pb-16 border-b border-cream-100/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 md:gap-12 pb-14 border-b border-cream-100/10">
           {/* Brand Column */}
-          <div className="lg:col-span-2 space-y-5">
+          <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full border border-gold-400/40 bg-espresso-900 shadow-sm">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full border border-marigold-400/40 bg-espresso-900 shadow-xs">
                 <svg
                   viewBox="0 0 48 48"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
                 >
-                  <circle cx="24" cy="24" r="22" stroke="#C5A059" strokeWidth="1" strokeDasharray="2 2" opacity="0.6" />
+                  <circle cx="24" cy="24" r="22" stroke="#D4A338" strokeWidth="1" strokeDasharray="2 2" opacity="0.6" />
                   <g transform="translate(24, 25)">
-                    <path d="M0 6 C0 0 -2 -10 0 -13" stroke="#C5A059" strokeWidth="2" strokeLinecap="round" />
-                    <circle cx="0" cy="-14" r="1.75" fill="#C5A059" />
-                    <path d="M0 6 C-4 2 -7 -6 0 -16 C7 -6 4 2 0 6 Z" fill="#FAF6EF" />
-                    <path d="M0 6 C-6 4 -12 -1 -12 -8 C-12 -12 -7 -14 -4 -10 C-2 -6 -1 1 0 6 Z" fill="#7A8F6B" />
-                    <path d="M0 6 C6 4 12 -1 12 -8 C12 -12 7 -14 4 -10 C2 -6 1 1 0 6 Z" fill="#D9A88F" />
-                    <path d="M0 6 C0 11 -2 15 -4 18" stroke="#7A8F6B" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M0 6 C0 0 -1.5 -8 0 -13" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
+                    <circle cx="0" cy="-14" r="1.75" fill="#F59E0B" />
+                    <path d="M0 6 C-4 2 -6.5 -5 0 -15 C6.5 -5 4 2 0 6 Z" fill="#FAF6EF" />
+                    <path d="M0 6 C-5.5 3.5 -12 0 -12 -7 C-12 -11 -7 -13 -4 -9 C-2 -5 -0.5 1 0 6 Z" fill="#C46845" />
+                    <path d="M0 6 C5.5 3.5 12 0 12 -7 C12 -11 7 -13 4 -9 C2 -5 0.5 1 0 6 Z" fill="#F59E0B" />
                   </g>
                 </svg>
               </div>
               <div className="flex flex-col">
-                <span className="font-serif text-2xl tracking-tight text-cream-50">Café Lily</span>
-                <span className="text-[10px] uppercase tracking-[0.25em] text-cream-300/70 font-sans">
-                  Roastery &amp; Botanical Sanctuary
+                <span className="font-serif text-2xl tracking-tight text-white font-normal">Café Lily</span>
+                <span className="text-[10px] uppercase tracking-[0.25em] text-marigold-300 font-sans">
+                  Chai • Kaapi • Bakes
                 </span>
               </div>
             </div>
 
-            <p className="text-sm text-cream-200/80 font-sans leading-relaxed max-w-sm">
-              An artisan sanctuary devoted to single-origin estate coffees, European viennoiserie, and slow, intentional mornings in Nashik.
+            <p className="text-sm text-cream-200/85 font-sans leading-relaxed max-w-sm">
+              Fresh coffee, warm kulhad chai, and homemade comfort snacks in a cozy garden setting on Gangapur Road, Nashik.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
+              <a
+                href={getWhatsAppGeneralUrl("general")}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Order or Chat on WhatsApp"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-emerald-300 hover:bg-emerald-600 hover:text-white transition-all text-xs font-medium"
+              >
+                <MessageCircle className="h-3.5 w-3.5 fill-current" />
+                <span>WhatsApp Desk</span>
+              </a>
+
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-cream-100/15 bg-cream-100/5 text-cream-200 hover:text-gold-400 hover:border-gold-400 hover:scale-105 transition-all"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-cream-100/15 bg-cream-100/5 text-cream-200 hover:text-marigold-400 hover:border-marigold-400 transition-all"
               >
                 <Instagram className="h-4 w-4" />
               </a>
@@ -71,56 +81,47 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-cream-100/15 bg-cream-100/5 text-cream-200 hover:text-gold-400 hover:border-gold-400 hover:scale-105 transition-all"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-cream-100/15 bg-cream-100/5 text-cream-200 hover:text-marigold-400 hover:border-marigold-400 transition-all"
               >
                 <Facebook className="h-4 w-4" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Twitter / X"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-cream-100/15 bg-cream-100/5 text-cream-200 hover:text-gold-400 hover:border-gold-400 hover:scale-105 transition-all"
-              >
-                <Twitter className="h-4 w-4" />
               </a>
             </div>
           </div>
 
-          {/* Navigation Links */}
+          {/* Quick Links */}
           <div className="space-y-4">
             <h3 className="font-serif text-base text-cream-50 font-normal tracking-wide">
-              Explore
+              Quick Links
             </h3>
             <ul className="space-y-2.5 text-sm font-sans text-cream-200/80">
               <li>
-                <Link href="/menu" className="hover:text-gold-400 transition-colors inline-flex items-center gap-1 group">
-                  <span>Specialty Menu</span>
-                  <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-gold-400" />
+                <Link href="/menu" className="hover:text-marigold-400 transition-colors inline-flex items-center gap-1 group">
+                  <span>Our Menu</span>
+                  <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-marigold-400" />
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-gold-400 transition-colors inline-flex items-center gap-1 group">
-                  <span>Our Story &amp; Estates</span>
-                  <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-gold-400" />
+                <Link href="/about" className="hover:text-marigold-400 transition-colors inline-flex items-center gap-1 group">
+                  <span>About Us</span>
+                  <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-marigold-400" />
                 </Link>
               </li>
               <li>
-                <Link href="/gallery" className="hover:text-gold-400 transition-colors inline-flex items-center gap-1 group">
-                  <span>Visual Atmosphere</span>
-                  <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-gold-400" />
+                <Link href="/gallery" className="hover:text-marigold-400 transition-colors inline-flex items-center gap-1 group">
+                  <span>Photo Gallery</span>
+                  <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-marigold-400" />
                 </Link>
               </li>
               <li>
-                <Link href="/reservations" className="hover:text-gold-400 transition-colors inline-flex items-center gap-1 group">
+                <Link href="/reservations" className="hover:text-marigold-400 transition-colors inline-flex items-center gap-1 group">
                   <span>Book a Table</span>
-                  <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-gold-400" />
+                  <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-marigold-400" />
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-gold-400 transition-colors inline-flex items-center gap-1 group">
-                  <span>Find Us &amp; FAQs</span>
-                  <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-gold-400" />
+                <Link href="/contact" className="hover:text-marigold-400 transition-colors inline-flex items-center gap-1 group">
+                  <span>Contact &amp; FAQs</span>
+                  <ArrowUpRight className="h-3 w-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-marigold-400" />
                 </Link>
               </li>
             </ul>
@@ -129,47 +130,45 @@ export function Footer() {
           {/* Opening Hours */}
           <div className="space-y-4">
             <h3 className="font-serif text-base text-cream-50 font-normal tracking-wide">
-              Visiting Hours
+              Opening Hours
             </h3>
-            <div className="space-y-3 text-xs md:text-sm font-sans text-cream-200/80">
+            <div className="space-y-2.5 text-xs sm:text-sm font-sans text-cream-200/80">
               <div>
                 <span className="font-semibold text-cream-100 block">Monday – Friday</span>
-                <span className="text-cream-300/70">7:30 AM – 10:30 PM</span>
+                <span className="text-cream-300/70">{siteConfig.hours.weekdays}</span>
               </div>
               <div>
                 <span className="font-semibold text-cream-100 block">Saturday – Sunday</span>
-                <span className="text-cream-300/70">8:00 AM – 11:30 PM</span>
+                <span className="text-cream-300/70">{siteConfig.hours.weekends}</span>
               </div>
               <div className="pt-1">
-                <span className="text-[11px] text-gold-400/90 font-mono">
-                  Kitchen closes 45 mins before closing
+                <span className="text-[11px] text-marigold-400 font-medium">
+                  Walk-ins always welcome
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Contact & Location */}
+          {/* Visit Us */}
           <div className="space-y-4">
             <h3 className="font-serif text-base text-cream-50 font-normal tracking-wide">
-              Visit The Roastery
+              Visit Us
             </h3>
-            <ul className="space-y-3 text-xs md:text-sm font-sans text-cream-200/80">
+            <ul className="space-y-2.5 text-xs sm:text-sm font-sans text-cream-200/80">
               <li className="flex items-start gap-2.5">
-                <MapPin className="h-4 w-4 text-gold-400 flex-shrink-0 mt-0.5" />
-                <span>
-                  Plot 14, Serene Boulevard, Gangapur Road, Nashik, Maharashtra 422005
-                </span>
+                <MapPin className="h-4 w-4 text-marigold-400 flex-shrink-0 mt-0.5" />
+                <span>{siteConfig.address}</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 text-gold-400 flex-shrink-0" />
-                <a href="tel:+919823045678" className="hover:text-gold-400 transition-colors">
-                  +91 98230 45678
+                <Phone className="h-4 w-4 text-marigold-400 flex-shrink-0" />
+                <a href={`tel:${siteConfig.phone.replace(/\s+/g, "")}`} className="hover:text-marigold-400 transition-colors">
+                  {siteConfig.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 text-gold-400 flex-shrink-0" />
-                <a href="mailto:hello@cafelily.in" className="hover:text-gold-400 transition-colors">
-                  hello@cafelily.in
+                <Mail className="h-4 w-4 text-marigold-400 flex-shrink-0" />
+                <a href={`mailto:${siteConfig.email}`} className="hover:text-marigold-400 transition-colors">
+                  {siteConfig.email}
                 </a>
               </li>
             </ul>
@@ -178,16 +177,13 @@ export function Footer() {
 
         {/* Bottom Credits & Legal */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-sans text-cream-300/60">
-          <p>© {currentYear} Café Lily Specialty Roastery. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            <span>Crafted with intentional detail &amp; slow coffee philosophy</span>
-            <span className="inline-flex items-center gap-1 text-gold-400">
-              Nashik, MH
-            </span>
+          <p>© {currentYear} {siteConfig.name}. All rights reserved.</p>
+          <div className="flex items-center gap-5">
+            <span className="text-marigold-400/90 font-medium">{siteConfig.agencyCredit}</span>
+            <span>Nashik, Maharashtra</span>
           </div>
         </div>
       </div>
     </footer>
   );
 }
-
